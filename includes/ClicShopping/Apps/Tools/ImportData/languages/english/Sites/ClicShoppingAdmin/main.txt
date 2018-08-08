@@ -1,0 +1,72 @@
+heading_title = Migration Import
+module_id_title = Migration Import
+module_id_short_title = Migration Import
+
+text_import_data = Migration Import
+text_configure =  configure App Module
+
+text_intro = This app allow you to include an import Migration Import form. <br /><br />
+- Click on Configure to access / install or uninstall the app.<br />
+- The App is located in Tools / Import<br />
+
+module_id_introduction = The install process create the database settings for this module and the access menu
+
+button_back = Back
+button_install_title = Install
+button_configure = Configure
+button_save = Save
+button_dialog_uninstall =  Uninstall
+button_uninstall =  Uninstall
+button_delete = Delete
+button_cancel = Cancel
+button_import_data = Migration Import
+button_process =  Launch the migration
+button_continue = Continue
+
+dialog_uninstall_title = Uninstall
+dialog_uninstall_body = Do you want install this App ?
+dialog_uninstall_title = Uninstall Module?
+dialog_uninstall_body = Are you sure you want to uninstall this module?
+
+alert_module_install_success = Module has been successfully installed.
+alert_module_uninstall_success = Module has been successfully uninstalled.
+alert_cfg_saved_success = Configuration parameters have been successfully saved.
+
+process_is_running_please_wait = The migration is in progress, please wait
+
+server = Server
+database = Old Database
+username = Username
+password = Password
+prefix_tables = Prefix table
+
+text_number_of_item = Number of item to import
+text_title_step1 = Migration Choice
+text_title_step2 =  Select the solution to import
+
+text_select_import = Select the importation mode
+text_process = Process
+
+select_ecommerce_solution =  Select the e-commerce solution to migrate
+text_select = -- Select --
+
+
+text_file = Files
+
+text_error_connexion =  there is a problem with database connexion, please retry or look the log
+text_success_connexion = Success : you are connected with the database
+text_success_import = The import process is finished and seems a success, please verify the datas and the integrety.
+
+text_title_help = help
+text_help_description =<strong>Note to read before migrate the data</strong>
+<blocquote>
+<li> You must not have data in your new database exepts the datas imported by ClicShopping</li>
+<li>Please always make a migration with a test database in order to verify the proper functioning of the migration</li>
+<li>The imported data is in raw format, Each database is read and imported into the database of ClicShopping.</li>
+<li>If an error occurs during the migration phase, please identify it and make corrections in the file.</li>
+<li>Please put your images in the directories products.</li>
+<li>ClicShopping has 2 languages ​​by default, the data will be replicated in the 2 languages ​​of ClicShopping. You will have to translate the imported language</li>
+
+<li>We decline all responsabilities in the event of an import error</li>
+</blocquote>
+

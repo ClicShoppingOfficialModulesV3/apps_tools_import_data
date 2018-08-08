@@ -1,0 +1,28 @@
+{
+  "title":			"apps_tools_import_data",
+  "type":       "apps",
+  "vendor":			"Tools",
+  "is_free":   "yes",
+  "is_core":   "no",
+  "website_link_to_sell" : "",
+  "version":			1.0,
+  "req_core_version":	3.0,
+  "license":			"GPL 2 - MIT",
+  "tag":			    "tools, import, data, migration, oscommerce, opencart",
+  "install":            "includes/ClicShopping/Apps/Tools/",
+  "module_directory":   "Tools",
+  "apps_name":          "ImportData",
+  "type_module":      "Fixe",
+  "dependance":       "",
+  "description":        "This apps allow to import - migrate your data from other e-commerce platform like Oscommerce, Opencart ...",
+  "image":            "ModuleInfosJson/migrate.png",
+  "authors": [
+    {
+      "name":		    "ClicShopping Team",
+      "company":	    "Innov-concept",
+      "email":	      "",
+      "website":	    "http://www.clicshopping.com",
+      "Community":	  "http://www.clicshopping.org"
+    }
+  ]
+}
