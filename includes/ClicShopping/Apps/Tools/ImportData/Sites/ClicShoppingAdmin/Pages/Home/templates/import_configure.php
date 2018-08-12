@@ -50,7 +50,7 @@
             <div class="form-group row">
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('server'); ?>" class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('server'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('server', 'localhost', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('server') . '"'); ?>
+                <?php echo HTML::inputField('server', '', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('server') . '"'); ?>
               </div>
             </div>
           </div>
@@ -83,7 +83,7 @@
             <div class="form-group row">
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('password'); ?>" class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('password'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('password', '', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('password') . '"'); ?>
+                <?php echo HTML::inputField('password', '', 'id="password" required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('password') . '"', 'password'); ?>
               </div>
             </div>
           </div>
