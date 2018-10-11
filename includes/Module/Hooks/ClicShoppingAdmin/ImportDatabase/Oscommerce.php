@@ -17,7 +17,7 @@
   use ClicShopping\Apps\Configuration\Administrators\Classes\ClicShoppingAdmin\AdministratorAdmin;
   use ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin\ImportDatabase;
 
-  class Oscommerce2 {
+  class Oscommerce {
     protected $PrefixTable;
     protected $db;
 
