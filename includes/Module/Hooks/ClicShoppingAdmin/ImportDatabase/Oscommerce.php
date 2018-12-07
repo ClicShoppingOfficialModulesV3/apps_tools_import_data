@@ -221,6 +221,8 @@
                             'customers_fax' => $data['customers_fax'],
                             'customers_password' => $data['customers_password'],
                             'customers_newsletter' => $data['customers_newsletter'],
+                            'languages_id' => 1,
+                            'customers_group_id' => 0,
                           ];
 
         $this->db->save('customers', $sql_data_array);
@@ -390,6 +392,7 @@
                            'orders_date_finished' => $data['orders_date_finished'],
                            'currency' => $data['currency'],
                            'currency_value' => $data['currency_value'],
+                           `customers_group_id`  => 0,
                           ];
 
         $this->db->save('orders', $sql_data_array);
@@ -563,7 +566,9 @@
                            'options_values_price' => (float)$data['options_values_price'],
                            'price_prefix' => $data['price_prefix'],
                            'products_options_sort_order' => 0,
-                           'products_attributes_reference' => ''
+                           'products_attributes_reference' => '',
+                           'customers_group_id' => 0,
+                           'products_attributes_image' => null
                           ];
 
         $this->db->save('products_attributes', $sql_data_array);
@@ -648,7 +653,8 @@
                            'language_id' => (int)$data['language_id'],
                            'products_options_name' => $data['products_options_name'],
                            'products_options_sort_order' => 0,
-        ];
+                           'products_options_type' => 'select'
+                          ];
 
         $this->db->save('products_options', $sql_data_array);
       }
@@ -712,7 +718,7 @@
                           ];
 
         $this->db->save('products_to_categories', $sql_data_array);
-        }
+      }
 
 //******************************************
 // reviews
