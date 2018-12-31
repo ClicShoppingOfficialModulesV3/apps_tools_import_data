@@ -118,7 +118,7 @@
     }
 ?>
     <div class="separator"></div>
-    <div class="alert alert-info">
+    <div class="alert alert-info" role="alert">
       <div><?php echo HTML::image($CLICSHOPPING_Template->getImageDirectory() . 'icons/help.gif', $CLICSHOPPING_ImportData->getDef('text_title_help')) . ' ' . $CLICSHOPPING_ImportData->getDef('text_title_help') ?></div>
       <div class="separator"></div>
       <div><?php echo $CLICSHOPPING_ImportData->getDef('text_help_description'); ?></div>

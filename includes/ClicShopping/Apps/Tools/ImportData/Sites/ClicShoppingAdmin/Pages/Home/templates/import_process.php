@@ -51,7 +51,7 @@
  <?php
       if ($error === true) {
 ?>
-        <div class="alert alert-warning">
+        <div class="alert alert-warning" role="alert">
 <?php
         echo '<div>'  . $CLICSHOPPING_ImportData->getDef('text_error_connexion') . '</div>';
         echo '<div class="text-md-right">' . HTML::button($CLICSHOPPING_ImportData->getDef('button_back'), null,  $CLICSHOPPING_ImportData->link('ImportData&ImportConfigure'), 'warning') . '</div>';
@@ -61,7 +61,7 @@
 <?php
       } else {
 ?>
-        <div class="alert alert-success"><?php echo $CLICSHOPPING_ImportData->getDef('text_success_connexion'); ?></div>
+        <div class="alert alert-success" role="alert"><?php echo $CLICSHOPPING_ImportData->getDef('text_success_connexion'); ?></div>
 
     <div class="separator"></div>
     <div class="col-md-12 mainTitle"><strong><?php echo $CLICSHOPPING_ImportData->getDef('text_process') ; ?></strong></div>
