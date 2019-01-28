@@ -568,7 +568,8 @@
                            'products_options_sort_order' => 0,
                            'products_attributes_reference' => '',
                            'customers_group_id' => 0,
-                           'products_attributes_image' => null
+                           'products_attributes_image' => null,
+                           'status' => null
                           ];
 
         $this->db->save('products_attributes', $sql_data_array);
