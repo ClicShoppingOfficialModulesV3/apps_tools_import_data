@@ -1,13 +1,13 @@
 <?php
-/**
- *
- *  @copyright 2008 - https://www.clicshopping.org
- *  @Brand : ClicShopping(Tm) at Inpi all right Reserved
- *  @Licence GPL 2 & MIT
- *  @licence MIT - Portion of osCommerce 2.4
- *  @Info : https://www.clicshopping.org/forum/trademark/
- *
- */
+  /**
+   *
+   * @copyright 2008 - https://www.clicshopping.org
+   * @Brand : ClicShopping(Tm) at Inpi all right Reserved
+   * @Licence GPL 2 & MIT
+   * @licence MIT - Portion of osCommerce 2.4
+   * @Info : https://www.clicshopping.org/forum/trademark/
+   *
+   */
 
   namespace ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin;
 
@@ -15,14 +15,17 @@
   use ClicShopping\OM\CLICSHOPPING;
   use ClicShopping\OM\HTML;
 
-  class ImportDatabase {
+  class ImportDatabase
+  {
 
-    public function __construct() {
+    public function __construct()
+    {
       $CLICSHOPPING_ImportData = Registry::get('ImportData');
       $this->app = $CLICSHOPPING_ImportData;
     }
 
-    public static function ImportSolution($name) {
+    public static function ImportSolution($name)
+    {
 
       $template_directory = CLICSHOPPING::getConfig('dir_root', 'Shop') . 'includes/Module/Hooks/ClicShoppingAdmin/ImportDatabase/';
 
@@ -43,10 +46,10 @@
             $filename_array = [];
 
             foreach ($found as $filename) {
-              $filename = basename ($filename, '.php');
+              $filename = basename($filename, '.php');
               $filename_array[] = ['id' => $filename,
-                                   'text' => $filename
-                                  ];
+                'text' => $filename
+              ];
 
               if ($filename == 'Oscommerce') {
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Creload');
@@ -65,7 +68,8 @@
 //  Hooks function
 //********************************************
 
-    public function cleanTableClicShopping() {
+    public function cleanTableClicShopping()
+    {
       $this->app->db->delete('banners');
       $this->app->db->delete('categories');
       $this->app->db->delete('categories_description');
@@ -90,7 +94,8 @@
     }
 
 
-    public function readLanguage() {
+    public function readLanguage()
+    {
       $Languages = $this->app->db->prepare('select languages_id,
                                                     code
                                            from :table_languages
