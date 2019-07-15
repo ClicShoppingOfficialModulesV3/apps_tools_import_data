@@ -24,7 +24,7 @@
       $this->app = $CLICSHOPPING_ImportData;
     }
 
-    public static function ImportSolution($name)
+    public static function ImportSolution(string $name)
     {
 
       $template_directory = CLICSHOPPING::getConfig('dir_root', 'Shop') . 'includes/Module/Hooks/ClicShoppingAdmin/ImportDatabase/';
