@@ -52,6 +52,7 @@
               ];
 
               if ($filename == 'Oscommerce') {
+                $filename_array[] = array('id' => 'Oscommerce_community', 'text' => 'Oscommerce Community');
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Creload');
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'OscMax');
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Zencart');

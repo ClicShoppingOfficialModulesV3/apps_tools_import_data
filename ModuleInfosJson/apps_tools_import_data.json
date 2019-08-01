@@ -5,7 +5,7 @@
   "is_free":   "yes",
   "is_core":   "no",
   "website_link_to_sell" : "",
-  "version":			"1.0.1",
+  "version":			"1.0.2",
   "req_core_version":	3.0,
   "license":			"GPL 2 - MIT",
   "tag":			    "tools, import, data, migration, oscommerce, opencart",
