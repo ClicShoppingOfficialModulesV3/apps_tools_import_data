@@ -19,7 +19,7 @@
   use ClicShopping\Apps\Configuration\Administrators\Classes\ClicShoppingAdmin\AdministratorAdmin;
   use ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin\ImportDatabase;
 
-  class Oscommerce
+  class OscommerceCommunity
   {
     protected $PrefixTable;
     protected $db;
@@ -90,8 +90,7 @@
 //**********************************
 //products table products description
 //**********************************
-
-      //test_oscommerce_phoenix
+// pb with test_oscommerce_phoenix
       $QproductDescriptions = $mysqli->query('select *
                                               from  ' . $this->PrefixTable . 'products_description
                                             ');
@@ -112,6 +111,9 @@
             'products_description' => $data['products_description'],
             'products_url' => $data['products_url'],
             'products_viewed ' => (int)$data['products_viewed'],
+            'products_head_title_tag' => $data['products_seo_title'],
+            'products_head_desc_tag' => $data['products_seo_description'],
+            'products_head_keywords_tag' => $data['products_seo_keywords'],
           ];
 
           $this->db->save('products_description', $sql_data_array);
@@ -225,8 +227,10 @@
             'language_id' => (int)$languages['languages_id'],
             'categories_name' => $data['categories_name'],
             'categories_description ' => null,
+            'categories_head_title_tag' => $data['products_seo_title'],
+            'categories_head_desc_tag' => $data['products_seo_description'],
+            'categories_head_keywords_tag' => $data['products_seo_keywords']
           ];
-
           $this->db->save('categories_description', $sql_data_array);
         }
       }
@@ -334,6 +338,10 @@
             'manufacturers_url' => $data['manufacturers_url'],
             'url_clicked' => (int)$data['url_clicked'],
             'date_last_click' => $data['date_last_click'],
+            'manufacturer_description ' => null,
+            'manufacturer_seo_title' => $data['manufacturers_seo_title'],
+            'manufacturer_seo_description' => $data['manufacturers_seo_description'],
+            'manufacturer_seo_keyword' => $data['manufacturers_seo_keywords'],
           ];
 
           $this->db->save('manufacturers_info', $sql_data_array);

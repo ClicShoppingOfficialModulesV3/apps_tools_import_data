@@ -29,8 +29,8 @@
 
       $template_directory = CLICSHOPPING::getConfig('dir_root', 'Shop') . 'includes/Module/Hooks/ClicShoppingAdmin/ImportDatabase/';
 
-      if ($contents = @scandir($template_directory)) {
-        if ($contents = @scandir($template_directory)) {
+      if ($contents = @scandir($template_directory, SCANDIR_SORT_NONE)) {
+        if ($contents = @scandir($template_directory, SCANDIR_SORT_NONE)) {
           $fileTypes = ['php']; // Create an array of file types7
           $found = []; // Traverse the folder, and add filename to $found array if type matches
 
@@ -52,7 +52,6 @@
               ];
 
               if ($filename == 'Oscommerce') {
-                $filename_array[] = array('id' => 'Oscommerce_community', 'text' => 'Oscommerce Community');
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Creload');
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'OscMax');
                 $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Zencart');

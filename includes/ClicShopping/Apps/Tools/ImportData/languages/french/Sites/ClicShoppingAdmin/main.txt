@@ -11,6 +11,7 @@ text_intro = Cette app vous permet d'accéder à un fomulaire d'import des donn�
 
 module_id_introduction = Le processus d'installation crée la base de données et le menu pour ce module
 
+button_back = Retour
 button_install_title = Installer
 button_configure = Configurer
 button_save = Sauver
@@ -21,7 +22,6 @@ button_cancel = Annuler
 button_import_data = Migration Import
 button_process =  Lancer la migration
 button_continue = Continuer
-
 
 dialog_uninstall_title = Désinstaller
 dialog_uninstall_body = Souhaitez-vous installer cette App ?
