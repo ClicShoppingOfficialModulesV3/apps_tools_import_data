@@ -188,7 +188,7 @@
 // table_categories
 //******************************************
       $Qcategories = $mysqli->query('select *
-                                     from ' . $this->PrefixTable . 'categories c
+                                     from ' . $this->PrefixTable . 'categories
                                     ');
       echo '<hr>';
       echo '<div>table_categories</div>';
@@ -211,7 +211,7 @@
 
 //description
       $Qcategories = $mysqli->query('select *
-                                    from ' . $this->PrefixTable . 'categories_description cd
+                                    from ' . $this->PrefixTable . 'categories_description
                                   ');
       echo '<hr>';
       echo '<div>table_categories_description</div>';
