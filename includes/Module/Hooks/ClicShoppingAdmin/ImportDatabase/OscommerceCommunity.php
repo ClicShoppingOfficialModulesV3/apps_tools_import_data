@@ -66,12 +66,13 @@
 
       while ($data = $Qlanguages->fetch_assoc()) {
         if ($cl[$i] != $data['code'] && $data['code'] != 'fr') {
-          $sql_data_array = ['name' => $data['name'],
+          $sql_data_array = [
+            'name' => $data['name'],
             'code' => $data['code'],
             'image' => $data['image'],
             'directory' => $data['directory'],
-            'sort_order' => (int)HTML::sanitize($data['sort_order']),
-            'status' => 1,
+            'sort_order' => (int)$data['sort_order'],
+            'status' => 1
           ];
 
           $this->db->save('languages', $sql_data_array);
@@ -101,7 +102,6 @@
 
       while ($data = $QproductDescriptions->fetch_assoc()) {
         foreach ($clicshopping_languages as $languages) {
-
           echo $data['products_id'] . ' - ' . $data['products_name'] . '<br />';
 
           $sql_data_array = [
@@ -188,7 +188,7 @@
 // table_categories
 //******************************************
       $Qcategories = $mysqli->query('select *
-                                     from ' . $this->PrefixTable . 'categories
+                                     from ' . $this->PrefixTable . 'categories c
                                     ');
       echo '<hr>';
       echo '<div>table_categories</div>';
@@ -197,7 +197,8 @@
 
       while ($data = $Qcategories->fetch_assoc()) {
 //categories
-        $sql_data_array = ['categories_id' => HTML::sanitize($data['categories_id']),
+        $sql_data_array = [
+          'categories_id' => HTML::sanitize($data['categories_id']),
           'categories_image' => $data['categories_image'],
           'parent_id' => (int)$data['parent_id'],
           'sort_order' => (int)$data['sort_order'],
@@ -223,7 +224,8 @@
 
 // categories_description
         foreach ($clicshopping_languages as $languages) {
-          $sql_data_array = ['categories_id' => (int)$data['categories_id'],
+          $sql_data_array = [
+            'categories_id' => (int)$data['categories_id'],
             'language_id' => (int)$languages['languages_id'],
             'categories_name' => $data['categories_name'],
             'categories_description ' => null,
@@ -231,6 +233,7 @@
             'categories_head_desc_tag' => $data['products_seo_description'],
             'categories_head_keywords_tag' => $data['products_seo_keywords']
           ];
+
           $this->db->save('categories_description', $sql_data_array);
         }
       }
@@ -292,7 +295,6 @@
         $this->db->save('customers_info', $sql_data_array);
       }
 
-
 //******************************************
 //manufacturers
 //******************************************
@@ -308,7 +310,8 @@
       while ($data = $Qmanufacturers->fetch_assoc()) {
         echo $data['manufacturers_id'] . ' - ' . $data['manufacturers_name'] . '<br />';
 
-        $sql_data_array = ['manufacturers_id' => (int)$data['manufacturers_id'],
+        $sql_data_array = [
+          'manufacturers_id' => (int)$data['manufacturers_id'],
           'manufacturers_name' => $data['manufacturers_name'],
           'manufacturers_image' => $data['manufacturers_image'],
           'date_added' => $data['date_added'],
@@ -333,7 +336,8 @@
 
       while ($data = $QmanufacturersName->fetch_assoc()) {
         foreach ($clicshopping_languages as $languages) {
-          $sql_data_array = ['manufacturers_id' => (int)$data['manufacturers_id'],
+          $sql_data_array = [
+            'manufacturers_id' => (int)$data['manufacturers_id'],
             'languages_id' => $languages['languages_id'],
             'manufacturers_url' => $data['manufacturers_url'],
             'url_clicked' => (int)$data['url_clicked'],
@@ -361,7 +365,8 @@
       echo '<hr>';
 
       while ($data = $Qnewsletters->fetch_assoc()) {
-        $sql_data_array = ['newsletters_id' => (int)HTML::sanitize($data['newsletters_id']),
+        $sql_data_array = [
+          'newsletters_id' => (int)HTML::sanitize($data['newsletters_id']),
           'title' => $data['title'],
           'content' => $data['content'],
           'content_html' => $data['content_html'],
@@ -388,7 +393,8 @@
       echo '<hr>';
 
       while ($data = $Qorders->fetch_assoc()) {
-        $sql_data_array = ['orders_id' => (int)HTML::sanitize($data['orders_id']),
+        $sql_data_array = [
+          'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'customers_id' => (int)HTML::sanitize($data['customers_id']),
           'customers_name' => $data['customers_name'],
           'customers_company' => $data['customers_company'],
@@ -449,7 +455,8 @@
       echo '<hr>';
 
       while ($data = $QordersProducts->fetch_assoc()) {
-        $sql_data_array = ['orders_products_id' => (int)HTML::sanitize($data['orders_products_id']),
+        $sql_data_array = [
+          'orders_products_id' => (int)HTML::sanitize($data['orders_products_id']),
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'products_id' => (int)HTML::sanitize($data['products_id']),
           'products_model' => $data['products_model'],
@@ -462,7 +469,6 @@
 
         $this->db->save('orders_products', $sql_data_array);
       }
-
 
 //******************************************
 // orders_status
@@ -477,7 +483,8 @@
 
       while ($data = $QordersStatus->fetch_assoc()) {
         if ($data['orders_status_id'] > 4) {
-          $sql_data_array = ['orders_status_id' => (int)HTML::sanitize($data['orders_status_id']),
+          $sql_data_array = [
+            'orders_status_id' => (int)HTML::sanitize($data['orders_status_id']),
             'language_id' => (int)HTML::sanitize($data['language_id']),
             'orders_status_name' => $data['orders_status_name'],
             'public_flag' => (int)HTML::sanitize($data['public_flag']),
@@ -501,7 +508,8 @@
       echo '<hr>';
 
       while ($data = $QordersHistory->fetch_assoc()) {
-        $sql_data_array = ['orders_status_history_id' => (int)HTML::sanitize($data['orders_status_history_id']),
+        $sql_data_array = [
+          'orders_status_history_id' => (int)HTML::sanitize($data['orders_status_history_id']),
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'orders_status_id' => (int)HTML::sanitize($data['order_status_id']),
           'orders_status_invoice_id' => 1,
@@ -524,7 +532,8 @@
       echo '<hr>';
 
       while ($data = $QordersTotal->fetch_assoc()) {
-        $sql_data_array = ['orders_total_id' => (int)HTML::sanitize($data['orders_total_id']),
+        $sql_data_array = [
+          'orders_total_id' => (int)HTML::sanitize($data['orders_total_id']),
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'title' => $data['title'],
           'text' => $data['text'],
@@ -548,7 +557,8 @@
       echo '<hr>';
 
       while ($data = $QordersProductsAttributes->fetch_assoc()) {
-        $sql_data_array = ['orders_products_attributes_id' => (int)$data['orders_products_attributes_id'],
+        $sql_data_array = [
+          'orders_products_attributes_id' => (int)$data['orders_products_attributes_id'],
           'orders_id' => (int)$data['orders_id'],
           'orders_products_id' => (int)$data['orders_products_id'],
           'products_options' => $data['products_options'],
@@ -573,7 +583,8 @@
       echo '<hr>';
 
       while ($data = $QordersProductsDownload->fetch_assoc()) {
-        $sql_data_array = ['orders_products_download_id' => (int)$data['orders_products_download_id'],
+        $sql_data_array = [
+          'orders_products_download_id' => (int)$data['orders_products_download_id'],
           'orders_id' => (int)$data['orders_id'],
           'orders_products_id' => (int)$data['orders_products_id'],
           'orders_products_filename' => $data['orders_products_filename'],
@@ -583,7 +594,6 @@
 
         $this->db->save('orders_products_download', $sql_data_array);
       }
-
 
 //******************************************
 //  products_attributes
@@ -597,7 +607,8 @@
       echo '<hr>';
 
       while ($data = $QordersProductsAttributes->fetch_assoc()) {
-        $sql_data_array = ['products_attributes_id' => (int)$data['products_attributes_id'],
+        $sql_data_array = [
+          'products_attributes_id' => (int)$data['products_attributes_id'],
           'products_id' => (int)$data['products_id'],
           'options_id' => (int)$data['options_id'],
           'options_values_id' => $data['options_values_id'],
@@ -625,7 +636,8 @@
       echo '<hr>';
 
       while ($data = $QProductsAttributesDownload->fetch_assoc()) {
-        $sql_data_array = ['products_attributes_id' => (int)$data['products_attributes_id'],
+        $sql_data_array = [
+          'products_attributes_id' => (int)$data['products_attributes_id'],
           'products_attributes_filename' => $data['products_attributes_filename'],
           'products_attributes_maxdays' => (int)$data['products_attributes_maxdays'],
           'products_attributes_maxcount' => (int)$data['products_attributes_maxcount']
@@ -646,7 +658,8 @@
       echo '<hr>';
 
       while ($data = $Qimages->fetch_assoc()) {
-        $sql_data_array = ['products_id' => (int)HTML::sanitize($data['products_id']),
+        $sql_data_array = [
+          'products_id' => (int)HTML::sanitize($data['products_id']),
           'image' => $data['image'],
           'htmlcontent' => $data['htmlcontent'],
           'sort_order' => (int)HTML::sanitize($data['sort_order']),
@@ -667,7 +680,8 @@
       echo '<hr>';
 
       while ($data = $Qnotifications->fetch_assoc()) {
-        $sql_data_array = ['products_id' => (int)HTML::sanitize($data['products_id']),
+        $sql_data_array = [
+          'products_id' => (int)HTML::sanitize($data['products_id']),
           'customers_id' => (int)HTML::sanitize($data['customers_id']),
           'date_added' => $data['date_added'],
         ];
@@ -689,7 +703,8 @@
 
       while ($data = $QproductsOption->fetch_assoc()) {
         foreach ($clicshopping_languages as $languages) {
-          $sql_data_array = ['products_options_id' => (int)$data['products_options_id'],
+          $sql_data_array = [
+            'products_options_id' => (int)$data['products_options_id'],
             'language_id' => (int)$languages['languages_id'],
             'products_options_name' => $data['products_options_name'],
             'products_options_sort_order' => 0,
@@ -713,7 +728,8 @@
 
       while ($data = $QproductsOption->fetch_assoc()) {
         foreach ($clicshopping_languages as $languages) {
-          $sql_data_array = ['products_options_values_id' => (int)$data['products_options_values_id'],
+          $sql_data_array = [
+            'products_options_values_id' => (int)$data['products_options_values_id'],
             'language_id' => (int)$languages['languages_id'],
             'products_options_values_name' => $data['products_options_values_name']
           ];
@@ -734,14 +750,14 @@
       echo '<hr>';
 
       while ($data = $QproductsOption->fetch_assoc()) {
-        $sql_data_array = ['products_options_values_to_products_options_id' => (int)$data['products_options_values_to_products_options_id'],
+        $sql_data_array = [
+          'products_options_values_to_products_options_id' => (int)$data['products_options_values_to_products_options_id'],
           'products_options_id' => (int)$data['products_options_id'],
           'products_options_values_id' => (int)$data['products_options_values_id']
         ];
 
         $this->db->save('products_options_values_to_products_options', $sql_data_array);
       }
-
 
 //******************************************
 // products_to categories
@@ -755,7 +771,8 @@
       echo '<hr>';
 
       while ($data = $QproductsCategories->fetch_assoc()) {
-        $sql_data_array = ['products_id' => (int)HTML::sanitize($data['products_id']),
+        $sql_data_array = [
+          'products_id' => (int)HTML::sanitize($data['products_id']),
           'categories_id' => (int)HTML::sanitize($data['categories_id'])
         ];
 
@@ -776,8 +793,8 @@
       echo '<hr>';
 
       while ($data = $Qreviews->fetch_assoc()) {
-
-        $sql_data_array = ['reviews_id' => (int)HTML::sanitize($data['reviews_id']),
+        $sql_data_array = [
+          'reviews_id' => (int)HTML::sanitize($data['reviews_id']),
           'products_id' => (int)HTML::sanitize($data['products_id']),
           'customers_id' => (int)HTML::sanitize($data['customers_id']),
           'customers_name' => $data['customers_name'],
@@ -796,7 +813,8 @@
         foreach ($clicshopping_languages as $languages) {
           $cl[$i] = $languages['languages_id'];
 
-          $sql_data_array = ['reviews_id' => (int)HTML::sanitize($data['reviews_id']),
+          $sql_data_array = [
+            'reviews_id' => (int)HTML::sanitize($data['reviews_id']),
             'languages_id' => (int)HTML::sanitize($cl[$i]),
             'reviews_text' => $data['reviews_text'],
           ];
@@ -808,7 +826,6 @@
 //***********************************
 //Specials
 //***********************************
-
       $Qspecials = $mysqli->query('select *
                                   from ' . $this->PrefixTable . 'specials
                                  ');
@@ -819,8 +836,8 @@
       echo '<hr>';
 
       while ($data = $Qspecials->fetch_assoc()) {
-
-        $sql_data_array = ['specials_id' => (int)HTML::sanitize($data['specials_id']),
+        $sql_data_array = [
+          'specials_id' => (int)HTML::sanitize($data['specials_id']),
           'products_id' => (int)HTML::sanitize($data['products_id']),
           'specials_new_products_price' => (float)$data['specials_new_products_price'],
           'specials_date_added' => $data['specials_date_added'],
@@ -835,7 +852,6 @@
         $this->db->save('specials', $sql_data_array);
       }
 
-
 //**********************************
 //products table
 //**********************************
@@ -849,30 +865,30 @@
 
 // products
       while ($data = $Qproducts->fetch_assoc()) {
-        $sql_data_array_products = ['products_id' => (int)HTML::sanitize($data['products_id']),
+        $sql_data_array_products = [
+          'products_id' => (int)HTML::sanitize($data['products_id']),
           'products_quantity' => (int)HTML::sanitize($data['products_quantity']),
           'products_ean' => HTML::sanitize($data['products_gtin']),
           'products_model' => $data['products_model'],
-          'products_sku' => HTML::sanitize($data['products_gtin']),
+          'products_sku' => HTML::sanitize($data['products_gtin']) ?? null,
           'products_price' => (float)$data['products_price'],
-          'products_date_available' => $data['products_date_available'],
+          'products_date_available' => $data['products_date_available'] ?? null,
           'products_weight' => (float)$data['products_weight'],
-          'products_status' => (int)HTML::sanitize($data['products_status']),
+          'products_status' => (int)$data['products_status'],
           'products_percentage' => 1,
           'products_view' => 1,
           'orders_view' => 1,
           'products_cost' => 0,
-          'products_tax_class_id' => (int)HTML::sanitize($data['products_tax_class_id']),
-          'manufacturers_id' => (int)HTML::sanitize($data['manufacturers_id']),
+          'products_tax_class_id' => (int)$data['products_tax_class_id'],
+          'manufacturers_id' => (int)$data['manufacturers_id'],
           'admin_user_name' => AdministratorAdmin::getUserAdmin(),
-          'products_sort_order' => (int)HTML::sanitize($data['products_ordered']),
+          'products_sort_order' => (int)$data['products_ordered'],
           'products_date_added' => 'now()',
           'products_last_modified' => 'now()',
           'products_date_available' => 'now()',
-          'products_image' => $data['products_image'],
+          'products_image' => $data['products_image'] ?? null,
           'products_weight_class_id' => 2,
         ];
-
 
 //***************************************
 // B2B
@@ -890,10 +906,8 @@
 
 
         while ($QcustomersGroup->fetch()) {
-
 //build the data for b2b
           if ($QcustomersGroup->rowCount() > 0) {
-
             $Qattributes = $this->db->prepare('select customers_group_id,
                                                          customers_group_price,
                                                          products_price
@@ -938,9 +952,7 @@
           }
         } // end while
 
-
         $this->db->save('products', $sql_data_array_products);
-
 
         $QcustomersGroup = $this->db->prepare('select distinct customers_group_id,
                                                                   customers_group_name,
@@ -955,7 +967,6 @@
 
 // Gets all of the customers groups
         while ($QcustomersGroup->fetch()) {
-
           $Qattributes = $this->db->prepare('select g.customers_group_id,
                                                        g.customers_group_price,
                                                        p.products_price
@@ -979,7 +990,6 @@
               } else {
                 $price_group_view = 0;
               }
-
 
               if (HTML::sanitize($sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')]) == 1) {
                 $products_group_view = 1;
@@ -1025,7 +1035,6 @@
             $Qupdate->bindInt(':products_id', (int)$data['products_id']);
             $Qupdate->execute();
 
-
 // Prix TTC B2B ----------
             if (($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != $Qattributes->value('customers_group_price')) && ($Qattributes->valueInt('customers_group_id') == $QcustomersGroup->valueInt('customers_group_id'))) {
 
@@ -1044,8 +1053,8 @@
 
 // Prix + Afficher Prix Public + Afficher Produit + Autoriser Commande
           } elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
-
-            $sql_data_array1 = ['products_id' => (int)HTML::sanitize($data['products_id']),
+            $sql_data_array1 = [
+              'products_id' => (int)HTML::sanitize($data['products_id']),
               'products_price' => (float)HTML::sanitize($sql_data_array['products_price']),
               'customers_group_id' => $QcustomersGroup->valueInt('customers_group_id'),
               'customers_group_price' => (float)$sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
