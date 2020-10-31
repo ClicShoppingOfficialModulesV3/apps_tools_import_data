@@ -16,8 +16,8 @@
   $CLICSHOPPING_ImportData = Registry::get('ImportData');
   $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
 
-  if ($CLICSHOPPING_MessageStack->exists('ImportData')) {
-    echo $CLICSHOPPING_MessageStack->get('ImportData');
+  if ($CLICSHOPPING_MessageStack->exists('main')) {
+    echo $CLICSHOPPING_MessageStack->get('main');
   }
 ?>
 <div class="contentBody">

@@ -44,8 +44,6 @@
   <?php
     if ($_POST['select_type_import'] == 'database') {
       ?>
-
-
       <div class="col-md-12 mainTitle">
         <strong><?php echo $CLICSHOPPING_ImportData->getDef('text_title_step2'); ?></strong></div>
       <div class="adminformTitle">

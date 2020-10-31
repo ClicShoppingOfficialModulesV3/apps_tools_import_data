@@ -24,9 +24,12 @@
       $this->app = $CLICSHOPPING_ImportData;
     }
 
-    public static function ImportSolution(string $name)
+    /**
+     * @param string $name
+     * @return string
+     */
+    public static function ImportSolution(string $name) :string
     {
-
       $template_directory = CLICSHOPPING::getConfig('dir_root', 'Shop') . 'includes/Module/Hooks/ClicShoppingAdmin/ImportDatabase/';
 
       if ($contents = @scandir($template_directory, SCANDIR_SORT_NONE)) {
@@ -47,27 +50,30 @@
 
             foreach ($found as $filename) {
               $filename = basename($filename, '.php');
-              $filename_array[] = ['id' => $filename,
+              $filename_array[] = [
+                'id' => $filename,
                 'text' => $filename
               ];
 
               if ($filename == 'Oscommerce') {
-                $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Creload');
-                $filename_array[] = array('id' => 'Oscommerce', 'text' => 'OscMax');
-                $filename_array[] = array('id' => 'Oscommerce', 'text' => 'Zencart');
+                $filename_array[] = ['id' => 'Oscommerce', 'text' => 'Creload'];
+                $filename_array[] = ['id' => 'Oscommerce', 'text' => 'OscMax'];
+                $filename_array[] = ['id' => 'Oscommerce', 'text' => 'Zencart'];
               }
             }
           }
         }
-      }
 
-      return HTML::selectMenu($name, $filename_array);
+        return HTML::selectMenu($name, $filename_array);
+      }
     }
 
 //********************************************
 //  Hooks function
 //********************************************
-
+    /**
+     * remove data
+     */
     public function cleanTableClicShopping()
     {
       $this->app->db->delete('banners');
@@ -93,12 +99,14 @@
       $this->app->db->delete('products_options_values_to_products_options');
     }
 
-
+    /**
+     * @return mixed
+     */
     public function readLanguage()
     {
       $Languages = $this->app->db->prepare('select languages_id,
                                                     code
-                                           from :table_languages
+                                            from :table_languages
                                           ');
 
       $Languages->execute();

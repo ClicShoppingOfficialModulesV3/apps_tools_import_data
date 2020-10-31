@@ -77,6 +77,7 @@
           echo '<hr>';
 
           $import = HTML::sanitize($_POST['select_ecommerce_solution']);
+
           $CLICSHOPPING_Hooks->call('ImportDatabase', $import);
         ?>
       </div>
