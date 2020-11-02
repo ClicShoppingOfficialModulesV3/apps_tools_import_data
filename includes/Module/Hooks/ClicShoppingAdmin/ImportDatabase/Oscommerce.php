@@ -210,7 +210,7 @@
 
 //description
       $Qcategories = $mysqli->query('select *
-                                    from ' . $this->PrefixTable . 'categories_description cd
+                                    from ' . $this->PrefixTable . 'categories_description
                                   ');
       echo '<hr>';
       echo '<div>table_categories_description</div>';
