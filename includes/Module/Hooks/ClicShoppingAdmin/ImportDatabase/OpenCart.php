@@ -742,28 +742,36 @@
 
 
 // Prix + Afficher Prix Public + Afficher Produit + Autoriser Commande
-          } elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
-
-            $sql_data_array1 = ['products_id' => (int)HTML::sanitize($data['product_id']),
-              'products_price' => (float)HTML::sanitize($sql_data_array['products_price']),
-              'customers_group_id' => $QcustomersGroup->valueInt('customers_group_id'),
-              'customers_group_price' => (float)$sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
-              'price_group_view' => (int)$sql_data_array['price_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
-              'products_group_view' => (int)$sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
-              'orders_group_view' => (int)$sql_data_array['orders_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
-              'products_quantity_unit_id_group' => (int)$sql_data_array['products_quantity_unit_id_group' . $QcustomersGroup->valueInt('customers_group_id')],
-              'products_model_group' => $sql_data_array['products_model_group' . $QcustomersGroup->valueInt('customers_group_id')],
-              'products_quantity_fixed_group' => (int)$sql_data_array['products_quantity_fixed_group' . $QcustomersGroup->valueInt('customers_group_id')]
-            ];
-
-            $this->db->save('products_groups', $sql_data_array1);
           }
+          /*
+                    elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
+                      $sql_data_array1 = [
+                        'products_id' => (int)HTML::sanitize($data['products_id']),
+                        'products_price' => (float)HTML::sanitize($sql_data_array['products_price']),
+                        'customers_group_id' => $QcustomersGroup->valueInt('customers_group_id'),
+                        'customers_group_price' => (float)$sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
+                        'price_group_view' => (int)$sql_data_array['price_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
+                        'products_group_view' => (int)$sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
+                        'orders_group_view' => (int)$sql_data_array['orders_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
+                        'products_quantity_unit_id_group' => (int)$sql_data_array['products_quantity_unit_id_group' . $QcustomersGroup->valueInt('customers_group_id')],
+                        'products_model_group' => $sql_data_array['products_model_group' . $QcustomersGroup->valueInt('customers_group_id')],
+                        'products_quantity_fixed_group' => (int)$sql_data_array['products_quantity_fixed_group' . $QcustomersGroup->valueInt('customers_group_id')]
+                      ];
+
+                      $this->db->save('products_groups', $sql_data_array1);
+                    }
+          */
         }
       }
 
       $mysqli->close();
       unset($data);
+
       Cache::clear('categories');
+      Cache::clear('products-also_purchased');
+      Cache::clear('products_related');
+      Cache::clear('products_cross_sell');
+      Cache::clear('upcoming');
 
       $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
 

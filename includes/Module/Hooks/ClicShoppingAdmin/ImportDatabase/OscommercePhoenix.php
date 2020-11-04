@@ -19,7 +19,7 @@
   use ClicShopping\Apps\Configuration\Administrators\Classes\ClicShoppingAdmin\AdministratorAdmin;
   use ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin\ImportDatabase;
 
-  class OscommerceCommunity
+  class OscommercePhoenix
   {
     protected $PrefixTable;
     protected $db;
@@ -153,7 +153,7 @@
 //******************************************
 // table_banners
 //******************************************
-
+/*
       $Qbanners = $mysqli->query('select *
                                   from ' . $this->PrefixTable . 'banners
                                   ');
@@ -183,7 +183,7 @@
 
         $this->db->save('banners', $sql_data_array);
       }
-
+*/
 //******************************************
 // table_categories
 //******************************************
@@ -229,9 +229,8 @@
             'language_id' => (int)$languages['languages_id'],
             'categories_name' => $data['categories_name'],
             'categories_description ' => null,
-            'categories_head_title_tag' => $data['products_seo_title'],
-            'categories_head_desc_tag' => $data['products_seo_description'],
-            'categories_head_keywords_tag' => $data['products_seo_keywords']
+            'categories_head_title_tag' => $data['categories_seo_title'],
+            'categories_head_desc_tag' => $data['categories_seo_description']
           ];
 
           $this->db->save('categories_description', $sql_data_array);
@@ -344,8 +343,7 @@
             'date_last_click' => $data['date_last_click'],
             'manufacturer_description ' => null,
             'manufacturer_seo_title' => $data['manufacturers_seo_title'],
-            'manufacturer_seo_description' => $data['manufacturers_seo_description'],
-            'manufacturer_seo_keyword' => $data['manufacturers_seo_keywords'],
+            'manufacturer_seo_description' => $data['manufacturers_seo_description']
           ];
 
           $this->db->save('manufacturers_info', $sql_data_array);
@@ -1014,7 +1012,6 @@
               $products_quantity_unit_id_group = 0;
               $products_model_group = '';
               $products_quantity_fixed_group = 1;
-
             } //end MODE_B2B_B2C
 
             $Qupdate = $this->db->prepare('update products_groups
@@ -1052,7 +1049,9 @@
 
 
 // Prix + Afficher Prix Public + Afficher Produit + Autoriser Commande
-          } elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
+          }
+/*
+          elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
             $sql_data_array1 = [
               'products_id' => (int)HTML::sanitize($data['products_id']),
               'products_price' => (float)HTML::sanitize($sql_data_array['products_price']),
@@ -1068,15 +1067,21 @@
 
             $this->db->save('products_groups', $sql_data_array1);
           }
+*/
         }
       }
 
       $mysqli->close();
       unset($data);
+
       Cache::clear('categories');
+      Cache::clear('products-also_purchased');
+      Cache::clear('products_related');
+      Cache::clear('products_cross_sell');
+      Cache::clear('upcoming');
 
       $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
-
+      echo '<div class="alert aler-warning text-md-center">' . CLICSHOPPING::getDef('text_warning') . '</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }
