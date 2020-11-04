@@ -55,8 +55,8 @@ text_file = Files
 
 text_error_connexion =  there is a problem with database connexion, please retry or look the log
 text_success_connexion = Success : you are connected with the database
-text_success_import = The import process is finished and seems a success, please verify the datas and the integrety.
-
+text_success_import = The import process is finished and seems a success, please verify the datas and the integrety Please update you customer group.
+text_warning = Please update you customer group (Customer menu)
 text_title_help = help
 text_help_description =<strong>Note to read before migrate the data</strong>
 <blocquote>

@@ -55,8 +55,8 @@ text_file = Fichiers
 text_error_connexion =  la connexion à la base de données n'a pas pu s'établir, veuillez recommencer.<br />
 Veuillez vérifier les logs pour connaître le motif de l'erreur.
 text_success_connexion = Connexion à la base de données réussie.
-text_success_import = La procédure d'importation est terminée et semble être un succès, veuillez vérifier s'il n'y pas des problèmes d'intégrité.
-
+text_success_import = La procédure d'importation est terminée et semble être un succès, veuillez vérifier s'il n'y pas des problèmes d'intégrité. Veuillez actualiserles vos groupes clients
+text_warning = Veuillez mettre à jour tous vos groupes clients (Menu Clients)
 text_title_help = Aide
 text_help_description = <strong>Note à lire avant une migration</strong>
 <blockquote>
