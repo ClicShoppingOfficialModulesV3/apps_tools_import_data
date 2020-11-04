@@ -7,7 +7,7 @@ You can create you own export easily and adapt in function your needs via a new 
 
 ImportData
 
-Important Note :
+Important Note : Update you customer group after an import (Cusotmer menu / Customers group) to synchronise all the table
 
 Copy the apps_tools_import_data.json into ClicShopping/Work/Cache/Github
 
