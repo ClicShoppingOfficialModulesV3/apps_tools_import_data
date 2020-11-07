@@ -8,6 +8,7 @@
    * @Info : https://www.clicshopping.org/forum/trademark/
    *
    */
+// Additional tables by ejSolutions
 
   namespace ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin;
 
@@ -74,11 +75,15 @@
     /**
      * remove data
      */
+    // Exclude banners, to retain default logo
+    //  $this->app->db->delete('banners');
     public function cleanTableClicShopping()
     {
-      $this->app->db->delete('banners');
+      $this->app->db->delete('address_book');
       $this->app->db->delete('categories');
       $this->app->db->delete('categories_description');
+      $this->app->db->delete('customers');
+      $this->app->db->delete('customers_info');
       $this->app->db->delete('manufacturers');
       $this->app->db->delete('manufacturers_info');
       $this->app->db->delete('products');
@@ -90,8 +95,13 @@
       $this->app->db->delete('reviews');
       $this->app->db->delete('reviews_description');
       $this->app->db->delete('specials');
+      $this->app->db->delete('orders');
+      $this->app->db->delete('orders_products');
       $this->app->db->delete('orders_products_attributes');
       $this->app->db->delete('orders_products_download');
+      $this->app->db->delete('orders_status');
+      $this->app->db->delete('orders_status_history');
+      $this->app->db->delete('orders_total');
       $this->app->db->delete('products_attributes');
       $this->app->db->delete('products_attributes_download');
       $this->app->db->delete('products_options');
