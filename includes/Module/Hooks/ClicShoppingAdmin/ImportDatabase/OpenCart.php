@@ -71,13 +71,14 @@
         $code = substr($data['code'], -5, 2);
 
         if ($cl[$i] != $code && $code != 'fr') {
-          $sql_data_array = ['name' => $data['name'],
+          $sql_data_array = [
+            'name' => $data['name'],
             'code' => $code,
             'image' => $data['image'],
             'directory' => $data['directory'],
             'sort_order' => (int)HTML::sanitize($data['sort_order']),
-            'status' => 1,
-          ];
+            'status' => 1
+                      ];
 
           $this->db->save('languages', $sql_data_array);
           echo '<p class="text-info"> new language imported : ' . $data['code'] . '</p>';
@@ -123,7 +124,7 @@
 // table_categories
 //******************************************
       $Qcategories = $mysqli->query('select *
-                                     from ' . $this->PrefixTable . 'category c
+                                     from ' . $this->PrefixTable . 'categories
                                     ');
       echo '<hr>';
       echo '<div>table_categories</div>';
@@ -227,7 +228,6 @@
             }
       */
 
-
 //******************************************
 //Customers group
 //******************************************
@@ -264,7 +264,6 @@
 //******************************************
 //manufacturers
 //******************************************
-
       $Qmanufacturers = $mysqli->query('select *
                                        from ' . $this->PrefixTable . 'manufacturer
                                      ');
@@ -589,10 +588,8 @@
 
 
         while ($QcustomersGroup->fetch()) {
-
 //build the data for b2b
           if ($QcustomersGroup->rowCount() > 0) {
-
             $Qattributes = $this->db->prepare('select customers_group_id,
                                                          customers_group_price,
                                                          products_price
@@ -637,9 +634,7 @@
           }
         } // end while
 
-
         $this->db->save('products', $sql_data_array_products);
-
 
         $QcustomersGroup = $this->db->prepare('select distinct customers_group_id,
                                                                   customers_group_name,
@@ -654,7 +649,6 @@
 
 // Gets all of the customers groups
         while ($QcustomersGroup->fetch()) {
-
           $Qattributes = $this->db->prepare('select g.customers_group_id,
                                                        g.customers_group_price,
                                                        p.products_price
@@ -678,7 +672,6 @@
               } else {
                 $price_group_view = 0;
               }
-
 
               if (HTML::sanitize($sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')]) == 1) {
                 $products_group_view = 1;
@@ -723,7 +716,6 @@
             $Qupdate->bindInt(':customers_group_id', $Qattributes->valueInt('customers_group_id'));
             $Qupdate->bindInt(':products_id', (int)$data['product_id']);
             $Qupdate->execute();
-
 
 // Prix TTC B2B ----------
             if (($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != $Qattributes->value('customers_group_price')) && ($Qattributes->valueInt('customers_group_id') == $QcustomersGroup->valueInt('customers_group_id'))) {
@@ -772,7 +764,6 @@
       Cache::clear('products_related');
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
-
       $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
 
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';

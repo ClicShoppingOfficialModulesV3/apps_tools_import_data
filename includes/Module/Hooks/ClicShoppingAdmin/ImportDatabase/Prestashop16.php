@@ -469,7 +469,6 @@
           'products_image' => null,
         ];
 
-
 //***************************************
 // B2B
 //***************************************
@@ -486,10 +485,8 @@
 
 
         while ($QcustomersGroup->fetch()) {
-
 //build the data for b2b
           if ($QcustomersGroup->rowCount() > 0) {
-
             $Qattributes = $CLICSHOPPING_Db->prepare('select customers_group_id,
                                                          customers_group_price,
                                                          products_price
@@ -553,7 +550,6 @@
 
 // Gets all of the customers groups
         while ($QcustomersGroup->fetch()) {
-
           $Qattributes = $CLICSHOPPING_Db->prepare('select g.customers_group_id,
                                                        g.customers_group_price,
                                                        p.products_price
@@ -577,7 +573,6 @@
               } else {
                 $price_group_view = 0;
               }
-
 
               if (HTML::sanitize($sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')]) == 1) {
                 $products_group_view = 1;
@@ -675,7 +670,7 @@
       Cache::clear('upcoming');
 
       $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
-
-      echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link('import.php'), 'success') . '</div>';
+      echo '<div class="alert aler-warning text-md-center">' . CLICSHOPPING::getDef('text_warning') . '</div>';
+      echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

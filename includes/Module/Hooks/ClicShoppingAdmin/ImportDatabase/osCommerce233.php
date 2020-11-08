@@ -19,7 +19,7 @@
   use ClicShopping\Apps\Configuration\Administrators\Classes\ClicShoppingAdmin\AdministratorAdmin;
   use ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin\ImportDatabase;
 
-  class Oscommerce233
+  class osCommerce233
   {
     protected $PrefixTable;
     protected $db;
@@ -86,13 +86,11 @@
 
       echo '<hr>';
 
-//test_oscommerce_phoenix
 
 //**********************************
 //products table products description
 //**********************************
 
-      //test_oscommerce_phoenix
       $QproductDescriptions = $mysqli->query('select *
                                               from  ' . $this->PrefixTable . 'products_description
                                             ');
@@ -192,7 +190,7 @@
 // table_categories
 //******************************************
       $Qcategories = $mysqli->query('select *
-                                     from ' . $this->PrefixTable . 'categories c
+                                     from ' . $this->PrefixTable . 'categories
                                     ');
       echo '<hr>';
       echo '<div>table_categories</div>';
@@ -232,7 +230,7 @@
             'categories_id' => (int)$data['categories_id'],
             'language_id' => (int)$languages['languages_id'],
             'categories_name' => $data['categories_name'],
-            'categories_description ' => null,
+            'categories_description ' => null
           ];
 
           $this->db->save('categories_description', $sql_data_array);
@@ -430,10 +428,11 @@
           'last_modified' => $data['last_modified'],
           'date_purchased' => $data['date_purchased'],
           'orders_status' => $data['orders_status'],
+          'orders_status_invoice' => 1,
           'orders_date_finished' => $data['orders_date_finished'],
           'currency' => $data['currency'],
           'currency_value' => $data['currency_value'],
-          `customers_group_id` => 0,
+          'customers_group_id' => 0,
         ];
 
         $this->db->save('orders', $sql_data_array);
@@ -510,7 +509,7 @@
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'orders_status_id' => (int)HTML::sanitize($data['order_status_id']),
           'orders_status_invoice_id' => 1,
-          'comment' => $data['comment'],
+          'comments' => $data['comments'],
           'date_added' => $data['date_added'],
         ];
         $this->db->save('orders_status_history', $sql_data_array);
@@ -539,7 +538,7 @@
           'sort_order' => (int)HTML::sanitize($data['sort_order']),
         ];
 
-        $this->db->save('orders_products', $sql_data_array);
+        $this->db->save('orders_total', $sql_data_array);
       }
 
 //******************************************
@@ -1011,7 +1010,6 @@
               $products_quantity_unit_id_group = 0;
               $products_model_group = '';
               $products_quantity_fixed_group = 1;
-
             } //end MODE_B2B_B2C
 
             $Qupdate = $this->db->prepare('update products_groups
@@ -1050,24 +1048,24 @@
 
 // Prix + Afficher Prix Public + Afficher Produit + Autoriser Commande
           }
-          /*
-                    elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
-                      $sql_data_array1 = [
-                        'products_id' => (int)HTML::sanitize($data['products_id']),
-                        'products_price' => (float)HTML::sanitize($sql_data_array['products_price']),
-                        'customers_group_id' => $QcustomersGroup->valueInt('customers_group_id'),
-                        'customers_group_price' => (float)$sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
-                        'price_group_view' => (int)$sql_data_array['price_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
-                        'products_group_view' => (int)$sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
-                        'orders_group_view' => (int)$sql_data_array['orders_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
-                        'products_quantity_unit_id_group' => (int)$sql_data_array['products_quantity_unit_id_group' . $QcustomersGroup->valueInt('customers_group_id')],
-                        'products_model_group' => $sql_data_array['products_model_group' . $QcustomersGroup->valueInt('customers_group_id')],
-                        'products_quantity_fixed_group' => (int)$sql_data_array['products_quantity_fixed_group' . $QcustomersGroup->valueInt('customers_group_id')]
-                      ];
+/*
+          elseif ($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != '') {
+            $sql_data_array1 = [
+              'products_id' => (int)HTML::sanitize($data['products_id']),
+              'products_price' => (float)HTML::sanitize($sql_data_array['products_price']),
+              'customers_group_id' => $QcustomersGroup->valueInt('customers_group_id'),
+              'customers_group_price' => (float)$sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
+              'price_group_view' => (int)$sql_data_array['price_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
+              'products_group_view' => (int)$sql_data_array['products_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
+              'orders_group_view' => (int)$sql_data_array['orders_group_view' . $QcustomersGroup->valueInt('customers_group_id')],
+              'products_quantity_unit_id_group' => (int)$sql_data_array['products_quantity_unit_id_group' . $QcustomersGroup->valueInt('customers_group_id')],
+              'products_model_group' => $sql_data_array['products_model_group' . $QcustomersGroup->valueInt('customers_group_id')],
+              'products_quantity_fixed_group' => (int)$sql_data_array['products_quantity_fixed_group' . $QcustomersGroup->valueInt('customers_group_id')]
+            ];
 
-                      $this->db->save('products_groups', $sql_data_array1);
-                    }
-          */
+            $this->db->save('products_groups', $sql_data_array1);
+          }
+*/
         }
       }
 
@@ -1079,8 +1077,9 @@
       Cache::clear('products_related');
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
-      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
 
+      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
+      echo '<div class="alert aler-warning text-md-center">' . CLICSHOPPING::getDef('text_warning') . '</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

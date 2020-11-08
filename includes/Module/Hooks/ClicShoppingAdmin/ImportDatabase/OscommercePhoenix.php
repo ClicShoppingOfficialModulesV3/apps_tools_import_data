@@ -86,7 +86,6 @@
 
       echo '<hr>';
 
-//test_oscommerce_phoenix
 
 //**********************************
 //products table products description
@@ -151,44 +150,10 @@
       }
 
 //******************************************
-// table_banners
-//******************************************
-/*
-      $Qbanners = $mysqli->query('select *
-                                  from ' . $this->PrefixTable . 'banners
-                                  ');
-      echo '<hr>';
-      echo '<div>table_banners</div>';
-      echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qbanners->num_rows . '</div>';
-      echo '<div>The languages has the id 1 (english), adjust after</div>';
-      echo '<hr>';
-
-      while ($data = $Qbanners->fetch_assoc()) {
-        $sql_data_array = ['banners_id' => (int)$data['banners_id'],
-          'banners_title' => $data['banners_title'],
-          'banners_url' => $data['banners_url'],
-          'banners_image' => $data['banners_image'],
-          'banners_group' => $data['banners_group'],
-          'banners_target' => '_self',
-          'banners_html_text' => $data['banners_html_text'],
-          'expires_impressions' => (int)$data['expires_impressions'],
-          'expires_date' => $data['expires_date'],
-          'date_scheduled' => $data['date_scheduled'],
-          'date_added' => $data['date_added'],
-          'date_status_change' => $data['date_status_change'],
-          'status' => (int)$data['status'],
-          'languages_id' => 1,
-          'banners_title_admin' => $data['banners_title']
-        ];
-
-        $this->db->save('banners', $sql_data_array);
-      }
-*/
-//******************************************
 // table_categories
 //******************************************
       $Qcategories = $mysqli->query('select *
-                                     from ' . $this->PrefixTable . 'categories c
+                                     from ' . $this->PrefixTable . 'categories
                                     ');
       echo '<hr>';
       echo '<div>table_categories</div>';
@@ -431,10 +396,11 @@
           'last_modified' => $data['last_modified'],
           'date_purchased' => $data['date_purchased'],
           'orders_status' => $data['orders_status'],
+          'orders_status_invoice' => 1,
           'orders_date_finished' => $data['orders_date_finished'],
           'currency' => $data['currency'],
           'currency_value' => $data['currency_value'],
-          `customers_group_id` => 0,
+          'customers_group_id' => 0,
         ];
 
         $this->db->save('orders', $sql_data_array);
@@ -511,7 +477,7 @@
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'orders_status_id' => (int)HTML::sanitize($data['order_status_id']),
           'orders_status_invoice_id' => 1,
-          'comment' => $data['comment'],
+          'comments' => $data['comments'],
           'date_added' => $data['date_added'],
         ];
         $this->db->save('orders_status_history', $sql_data_array);
@@ -540,7 +506,7 @@
           'sort_order' => (int)HTML::sanitize($data['sort_order']),
         ];
 
-        $this->db->save('orders_products', $sql_data_array);
+        $this->db->save('orders_total', $sql_data_array);
       }
 
 //******************************************
