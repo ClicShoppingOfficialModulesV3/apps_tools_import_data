@@ -41,12 +41,16 @@
 
       Registry::set('ImportDatabase', new ImportDatabase());
       $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
-      $clicshopping_languages = $CLICSHOPPING_ImportDatabase->readLanguage();
+
+      $CLICSHOPPING_ImportDatabase->cleanTableClicShopping();
 
 //******************************************
 //Languages --−> risques de conflits avec la bd originelles
 //******************************************
+      $clicshopping_languages = $CLICSHOPPING_ImportDatabase->readLanguage();
+
       $i = 0;
+      $cl = [];
 
       foreach ($clicshopping_languages as $languages) {
         $cl[$i] = $languages['code'];
@@ -61,6 +65,7 @@
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qlanguages->num_rows . '</div>';
 
       $i = 0;
+
       while ($data = $Qlanguages->fetch_assoc()) {
         if ($cl[$i] != $data['code']) {
           $sql_data_array = [
@@ -70,11 +75,12 @@
           ];
 
 //          $CLICSHOPPING_Db->save('languages', $sql_data_array);
-          $i = $i + 1;
           echo '<p class="text-info"> new language imported : ' . $data['name'] . '</p>';
         } else {
           echo '<p class="text-info"> No item to import, exist inside db : ' . $data['code'] . '</p>';
         }
+
+        $i++;
       }
 
       echo '<hr>';

@@ -1,7 +1,14 @@
 # apps_tools_import_data
 
-This apps Allow to migrate your data from other e-commerce platform like OsCommerce, Opencart ...
-This app come from with Oscommerce 233, Oscommerce Phoenix, Zencart, Prestashop, OpenCart
+This apps Allow to migrate your data from other e-commerce platform
+
+This app come from with (example): 
+- Oscommerce 233, 
+- Oscommerce Phoenix, 
+- OscMax 2.0
+- Zencart, 
+- Prestashop 1.6, 
+- OpenCart
 
 You can create you own export easily and adapt in function your needs via a new hook.
 
