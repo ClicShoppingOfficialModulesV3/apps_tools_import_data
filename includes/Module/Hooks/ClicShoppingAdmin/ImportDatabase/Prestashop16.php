@@ -32,20 +32,6 @@
       $this->PrefixTable = HTML::outputProtected($_POST['prefix_tables']);
     }
 
-    private static function readLanguage()
-    {
-      $CLICSHOPPING_Db = Registry::get('Db');
-      $Languages = $CLICSHOPPING_Db->prepare('select languages_id,
-                                              code
-                                       from :table_languages
-                                      ');
-
-      $Languages->execute();
-      $languages = $Languages->fetchAll();
-
-      return $languages;
-    }
-
     public function execute()
     {
       global $mysqli;
@@ -53,32 +39,15 @@
       $CLICSHOPPING_Db = Registry::get('Db');
       $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
 
-      /*
-        clean table
-      */
-      /*
-            $CLICSHOPPING_Db->delete('categories');
-            $CLICSHOPPING_Db->delete('categories_description');
-            $CLICSHOPPING_Db->delete('manufacturers');
-            $CLICSHOPPING_Db->delete('manufacturers_info');
-      
-      
-            $CLICSHOPPING_Db->delete('products');
-            $CLICSHOPPING_Db->delete('products_description');
-            $CLICSHOPPING_Db->delete('products_groups');
-            $CLICSHOPPING_Db->delete('products_images');
-            $CLICSHOPPING_Db->delete('products_notifications');
-            $CLICSHOPPING_Db->delete('products_to_categories');
-      
-      
-            $CLICSHOPPING_Db->delete('specials');
-      */
+      Registry::set('ImportDatabase', new ImportDatabase());
+      $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
+      $clicshopping_languages = $CLICSHOPPING_ImportDatabase->readLanguage();
+
 //******************************************
 //Languages --−> risques de conflits avec la bd originelles
 //******************************************
-      $clicshopping_languages = static::readLanguage();
-
       $i = 0;
+
       foreach ($clicshopping_languages as $languages) {
         $cl[$i] = $languages['code'];
         $i = $i + 1;
@@ -670,7 +639,7 @@
       Cache::clear('upcoming');
 
       $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
-      echo '<div class="alert aler-warning text-md-center">' . CLICSHOPPING::getDef('text_warning') . '</div>';
+      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

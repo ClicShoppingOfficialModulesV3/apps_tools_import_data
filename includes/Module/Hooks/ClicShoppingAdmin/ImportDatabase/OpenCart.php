@@ -764,8 +764,8 @@
       Cache::clear('products_related');
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
-      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
 
+      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

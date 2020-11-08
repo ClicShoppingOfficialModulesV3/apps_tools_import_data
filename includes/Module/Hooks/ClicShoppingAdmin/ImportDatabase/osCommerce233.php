@@ -864,9 +864,7 @@
         $sql_data_array_products = [
           'products_id' => (int)HTML::sanitize($data['products_id']),
           'products_quantity' => (int)HTML::sanitize($data['products_quantity']),
-          'products_ean' => HTML::sanitize($data['products_gtin']),
           'products_model' => $data['products_model'],
-          'products_sku' => HTML::sanitize($data['products_gtin']) ?? null,
           'products_price' => (float)$data['products_price'],
           'products_date_available' => $data['products_date_available'] ?? null,
           'products_weight' => (float)$data['products_weight'],
@@ -1079,7 +1077,7 @@
       Cache::clear('upcoming');
 
       $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
-      echo '<div class="alert aler-warning text-md-center">' . CLICSHOPPING::getDef('text_warning') . '</div>';
+      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

@@ -13,6 +13,9 @@ Copy the apps_tools_import_data.json into ClicShopping/Work/Cache/Github
 
 licence  : GPL 2 - MIT
 
+Note :
+If the importation do not work with all language,please, delete our own language and use only english language
+
 Install :
 
 https://monsite/myAdmin/index.php?A&Tools\ImportData

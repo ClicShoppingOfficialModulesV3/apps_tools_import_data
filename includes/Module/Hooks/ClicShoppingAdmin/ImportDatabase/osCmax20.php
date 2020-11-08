@@ -1,4 +1,5 @@
 <?php
+
   /**
    *
    * @copyright 2008 - https://www.clicshopping.org
@@ -39,7 +40,7 @@
 
       Registry::set('ImportDatabase', new ImportDatabase());
       $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
-		echo 'Attempt to clean existing data<br>';
+      echo 'Attempt to clean existing data<br>';
       $CLICSHOPPING_ImportDatabase->cleanTableClicShopping();
 
 //******************************************
@@ -1105,8 +1106,8 @@
       Cache::clear('products_related');
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
-      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
 
+      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }
