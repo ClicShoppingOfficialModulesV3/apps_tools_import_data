@@ -36,9 +36,6 @@
     {
       global $mysqli;
 
-      ini_set('memory_limit','256M');
-      set_time_limit(0);
-
       Registry::set('ImportDatabase', new ImportDatabase());
       $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
 

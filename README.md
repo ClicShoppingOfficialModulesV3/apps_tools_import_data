@@ -21,7 +21,9 @@ Copy the apps_tools_import_data.json into ClicShopping/Work/Cache/Github
 licence  : GPL 2 - MIT
 
 Note :
-If the importation do not work with all language,please, delete our own language and use only english language
+If the importation do not work with all language, please, delete our own language and use only english language
+About the memory and time out. you can include code inside an htaccess or add inside the hooks (depends on your hoster allow that or not)
+
 
 Install :
 

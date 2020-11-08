@@ -35,9 +35,6 @@
     {
       global $mysqli;
 
-      ini_set('memory_limit','256M');
-      set_time_limit(0);
-
       $CLICSHOPPING_Db = Registry::get('Db');
       $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
 
