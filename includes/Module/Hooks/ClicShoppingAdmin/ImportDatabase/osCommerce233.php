@@ -34,11 +34,13 @@
     {
       global $mysqli;
 
-      $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
+      ini_set('memory_limit','256M');
+      set_time_limit(0);
 
       Registry::set('ImportDatabase', new ImportDatabase());
       $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
 
+      echo 'Attempt to clean existing data<br />';
       $CLICSHOPPING_ImportDatabase->cleanTableClicShopping();
 
 //******************************************
@@ -150,40 +152,6 @@
           'entry_zone_id' => HTML::sanitize($data['entry_zone_id']),
         ];
         $this->db->save('address_book', $sql_data_array);
-      }
-
-//******************************************
-// table_banners
-//******************************************
-
-      $Qbanners = $mysqli->query('select *
-                                  from ' . $this->PrefixTable . 'banners
-                                  ');
-      echo '<hr>';
-      echo '<div>table_banners</div>';
-      echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qbanners->num_rows . '</div>';
-      echo '<div>The languages has the id 1 (english), adjust after</div>';
-      echo '<hr>';
-
-      while ($data = $Qbanners->fetch_assoc()) {
-        $sql_data_array = ['banners_id' => (int)$data['banners_id'],
-          'banners_title' => $data['banners_title'],
-          'banners_url' => $data['banners_url'],
-          'banners_image' => $data['banners_image'],
-          'banners_group' => $data['banners_group'],
-          'banners_target' => '_self',
-          'banners_html_text' => $data['banners_html_text'],
-          'expires_impressions' => (int)$data['expires_impressions'],
-          'expires_date' => $data['expires_date'],
-          'date_scheduled' => $data['date_scheduled'],
-          'date_added' => $data['date_added'],
-          'date_status_change' => $data['date_status_change'],
-          'status' => (int)$data['status'],
-          'languages_id' => 1,
-          'banners_title_admin' => $data['banners_title']
-        ];
-
-        $this->db->save('banners', $sql_data_array);
       }
 
 //******************************************
@@ -1076,7 +1044,6 @@
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
 
-      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
       echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }

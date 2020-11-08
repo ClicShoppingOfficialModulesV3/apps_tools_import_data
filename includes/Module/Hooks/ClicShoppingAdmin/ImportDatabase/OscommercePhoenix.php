@@ -34,7 +34,8 @@
     {
       global $mysqli;
 
-      $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
+      ini_set('memory_limit','256M');
+      set_time_limit(0);
 
       Registry::set('ImportDatabase', new ImportDatabase());
       $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
@@ -1046,7 +1047,6 @@
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
 
-      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
       echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
