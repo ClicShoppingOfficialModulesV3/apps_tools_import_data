@@ -7,7 +7,7 @@
    * @Licence GPL 2 & MIT
    * @licence MIT - Portion of osCommerce 2.4
    * @Info : https://www.clicshopping.org/forum/trademark/
-   * @developper ejSolutions version 1.0 - AlwaysSkint
+   * @developer ejSolutions version 1.1 - AlwaysSkint
    * osCmax2.0x
    */
 
@@ -153,6 +153,42 @@
           $this->db->save('address_book', $sql_data_array);
       }
 
+
+//******************************************
+// table_banners
+//******************************************
+
+      $Qbanners = $mysqli->query('select *
+                                  from ' . $this->PrefixTable . 'banners
+                                  ');
+      echo '<hr>';
+      echo '<div>table_banners</div>';
+      echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qbanners->num_rows . '</div>';
+      echo '<div>The languages has the id 1 (english), adjust after</div>';
+      echo '<hr>';
+
+      while ($data = $Qbanners->fetch_assoc()) {
+        $sql_data_array = ['banners_id' => (int)$data['banners_id'],
+          'banners_title' => $data['banners_title'],
+          'banners_url' => $data['banners_url'],
+          'banners_image' => $data['banners_image'],
+          'banners_group' => $data['banners_group'],
+          'banners_target' => '_self',
+          'banners_html_text' => $data['banners_html_text'],
+          'expires_impressions' => (int)$data['expires_impressions'],
+          'expires_date' => $data['expires_date'],
+          'date_scheduled' => $data['date_scheduled'],
+          'date_added' => $data['date_added'],
+          'date_status_change' => $data['date_status_change'],
+          'status' => (int)$data['status'],
+          'languages_id' => 1,
+          'banners_title_admin' => $data['banners_title']
+        ];
+
+         $this->db->save('banners', $sql_data_array);
+      }
+
+
 //******************************************
 // table_categories
 //******************************************
@@ -290,7 +326,7 @@
                                       ');
 
       echo '<hr>';
-      echo '<div>table_manufacturers et manufacturers_info</div>';
+      echo '<div>table_manufacturers</div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qmanufacturers->num_rows . '</div>';
       echo '<hr>';
 
@@ -316,7 +352,7 @@
                                           ');
 
       echo '<hr>';
-      echo '<div>table_manufacturers et manufacturers_info</div>';
+      echo '<div>table_manufacturers_info</div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $QmanufacturersName->num_rows . '</div>';
       echo '<hr>';
 
@@ -337,6 +373,9 @@
 //******************************************
 //newsletter
 //******************************************
+// Remove content_html - ejSolutions
+      // 'content_html' => $data['content_html'],
+      
       $Qnewsletters = $mysqli->query('select *
                                        from ' . $this->PrefixTable . 'newsletters
                                      ');
@@ -351,7 +390,6 @@
           'newsletters_id' => (int)HTML::sanitize($data['newsletters_id']),
           'title' => $data['title'],
           'content' => $data['content'],
-          'content_html' => $data['content_html'],
           'module' => $data['module'],
           'date_added' => $data['date_added'],
           'date_sent' => $data['date_sent'],
@@ -359,7 +397,7 @@
           'locked' => (int)HTML::sanitize($data['locked']),
         ];
 
-        // $this->db->save('newsletters', $sql_data_array);
+         $this->db->save('newsletters', $sql_data_array);
       }
 
 //******************************************
@@ -465,7 +503,7 @@
                                        from ' . $this->PrefixTable . 'orders_status
                                       ');
       echo '<hr>';
-      echo '<div>table_orders_status <br />; // Status update > 4</div>';
+      echo '<div>table_orders_status <br /></div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $QordersStatus->num_rows . '</div>';
       echo '<hr>';
 
