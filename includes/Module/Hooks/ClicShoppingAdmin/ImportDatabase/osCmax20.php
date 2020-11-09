@@ -7,7 +7,7 @@
    * @Licence GPL 2 & MIT
    * @licence MIT - Portion of osCommerce 2.4
    * @Info : https://www.clicshopping.org/forum/trademark/
-   * @developer ejSolutions version 1.1 - AlwaysSkint
+   * @developer ejSolutions version 1.3 - AlwaysSkint
    * osCmax2.0x
    */
 
@@ -289,6 +289,60 @@
         }
          $this->db->save('customers', $sql_data_array);
       }
+
+//******************************************
+//Customers Groups
+//******************************************
+/* Inverted restrictions
+
+          'group_payment_unallowed' => $data['group_payment_allowed'],
+          'group_shipment_unallowed' => $data['group_shipment_allowed']
+*/
+// Set default to match original db
+
+/*      echo "recreate customers_groups<br>";
+      $this->db->delete('customers_groups');
+      echo "table deleted";
+      $cg_array = [
+                  	"ADD customers_group_id int default(0) not_null",
+					"ADD customers_group_name varchar(32) not_null",
+					"ADD customers_group_discount decimal(11,2) default(0.00) not_null",
+					"ADD color_bar varchar(8) default('#FFFFFF') not_null",
+					"ADD group_order_taxe tinyint(1) default(0) not_null",
+					"ADD group_payment_unallowed varchar(255) default('cc')",
+					"ADD group_shipping_unallowed varchar(255)",
+					"ADD group_tax varchar(5) default('false') not_null",
+					"ADD customers_group_quantity_default int(4) default(0) not_null"
+        ];
+       
+      $this->db->query('customers_groups', $cg_array);
+*/      
+      $QcustomersGroups = $mysqli->query('select *
+                                         from ' . $this->PrefixTable . 'customers_groups
+                                       ');
+      echo '<hr>';
+      echo '<div>table_customers_groups</div>';
+      echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $QcustomersGroups->num_rows . '</div>';
+      echo '<hr>';
+
+      while ($data = $QcustomersGroups->fetch_assoc()) {
+        $sql_data_array = [
+          'customers_group_id' => (int)$data['customers_group_id'],
+          'customers_group_name' => $data['customers_group_name'],
+          'group_tax' => (int)$data['customers_group_show_tax'],
+          'group_order_taxe' =>  $data['customers_group_tax_exempt']
+        ];
+
+        $this->db->save('customers_groups', $sql_data_array);
+      }
+
+// Return structure to original
+/*      $QalterRevert = $this->db->query('ALTER TABLE :customers_groups 
+      									  CHANGE customers_group_id customers_group_id INT(11) NOT NULL AUTO_INCREMENT
+                                  		 ');
+
+      $QalterRevert->execute();
+*/
 
 //******************************************
 //Customers Info
@@ -677,11 +731,11 @@
 //******************************************
 // products_images
 //******************************************
-/* Unused in osCmax - ejSolutions
-/*
-	$Qimages = $mysqli->query('select *
-                                 from ' . $this->PrefixTable . 'products_images
-                               ');
+// Unused in osCmax, so limited migration - ejSolutions
+
+	$Qimages = $mysqli->query('select products_id,products_image
+                                 from ' . $this->PrefixTable . 'products'
+                             );
       echo '<hr>';
       echo '<div>table_products_images </div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qimages->num_rows . '</div>';
@@ -690,14 +744,13 @@
       while ($data = $Qimages->fetch_assoc()) {
         $sql_data_array = [
           'products_id' => (int)HTML::sanitize($data['products_id']),
-          'image' => $data['image'],
-          'htmlcontent' => $data['htmlcontent'],
-          'sort_order' => (int)HTML::sanitize($data['sort_order']),
+          'image' => 'products/' . $data['products_image'],
+          'sort_order'=> 1
         ];
 
         $this->db->save('products_images', $sql_data_array);
       }
-*/
+
 //******************************************
 // products_notifications
 //******************************************
@@ -916,7 +969,7 @@
           'products_date_added' => 'now()',
           'products_last_modified' => 'now()',
           'products_date_available' => 'now()',
-          'products_image' => $data['products_image'] ?? null,
+          'products_image' => 'products/' . $data['products_image'] ?? null,
           'products_weight_class_id' => 2,
         ];
 
