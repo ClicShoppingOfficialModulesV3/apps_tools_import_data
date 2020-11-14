@@ -54,7 +54,7 @@
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('server'); ?>"
                      class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('server'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('server', '', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('server') . '"'); ?>
+                <?php echo HTML::inputField('server', 'localhost', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('server') . '"'); ?>
               </div>
             </div>
           </div>
@@ -66,7 +66,7 @@
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('database'); ?>"
                      class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('database'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('database', '', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('database') . '"'); ?>
+                <?php echo HTML::inputField('database', 'oscommerce', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('database') . '"'); ?>
               </div>
             </div>
           </div>
@@ -78,7 +78,7 @@
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('username'); ?>"
                      class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('username'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('username', '', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('username') . '"'); ?>
+                <?php echo HTML::inputField('username', 'root', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('username') . '"'); ?>
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('password'); ?>"
                      class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('password'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('password', '', 'id="password" required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('password') . '"', 'password'); ?>
+                <?php echo HTML::inputField('password', 'yae8mr2o', 'id="password" required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('password') . '"', 'password'); ?>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@
     }
   ?>
   <div class="separator"></div>
-  <div class="alert alert-info" role="alert">
+  <div class="alert alert-warning" role="alert">
     <div><?php echo HTML::image($CLICSHOPPING_Template->getImageDirectory() . 'icons/help.gif', $CLICSHOPPING_ImportData->getDef('text_title_help')) . ' ' . $CLICSHOPPING_ImportData->getDef('text_title_help') ?></div>
     <div class="separator"></div>
     <div><?php echo $CLICSHOPPING_ImportData->getDef('text_help_description'); ?></div>

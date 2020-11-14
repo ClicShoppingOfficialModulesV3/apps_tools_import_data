@@ -17,7 +17,6 @@
 
   class ImportDatabase
   {
-
     public function __construct()
     {
       $CLICSHOPPING_ImportData = Registry::get('ImportData');
@@ -71,31 +70,15 @@
 //  Hooks function
 //********************************************
     /**
-     * remove data
+     * remove sql data
      */
-    public function cleanTableClicShopping()
+    public function cleanTableClicShopping(array $array_db)
     {
-      $this->app->db->delete('banners');
-      $this->app->db->delete('categories');
-      $this->app->db->delete('categories_description');
-      $this->app->db->delete('manufacturers');
-      $this->app->db->delete('manufacturers_info');
-      $this->app->db->delete('products');
-      $this->app->db->delete('products_description');
-      $this->app->db->delete('products_groups');
-      $this->app->db->delete('products_images');
-      $this->app->db->delete('products_notifications');
-      $this->app->db->delete('products_to_categories');
-      $this->app->db->delete('reviews');
-      $this->app->db->delete('reviews_description');
-      $this->app->db->delete('specials');
-      $this->app->db->delete('orders_products_attributes');
-      $this->app->db->delete('orders_products_download');
-      $this->app->db->delete('products_attributes');
-      $this->app->db->delete('products_attributes_download');
-      $this->app->db->delete('products_options');
-      $this->app->db->delete('products_options_values');
-      $this->app->db->delete('products_options_values_to_products_options');
+      if (is_array($array_db)) {
+        foreach ($array_db as $value) {
+          $this->app->db->delete($value);
+        }
+      }
     }
 
     /**

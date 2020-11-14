@@ -56,11 +56,11 @@ text_error_connexion =  la connexion à la base de données n'a pas pu s'établi
 Veuillez vérifier les logs pour connaître le motif de l'erreur.
 text_success_connexion = Connexion à la base de données réussie.
 text_success_import = La procédure d'importation est terminée et semble être un succès, veuillez vérifier s'il n'y pas des problèmes d'intégrité. Veuillez actualiserles vos groupes clients
-text_warning = Veuillez mettre à jour tous vos groupes clients (Menu Clients)
 text_title_help = Aide
 text_help_description = <strong>Note à lire avant une migration</strong>
 <blockquote>
 Pour que la migrations des données puissent se faire correctement,<br />
+<li>Important : veuillez supprimer la langue française avant de procéder</li>
 <li>Vous ne devez pas avoir de données dans votre nouvelle base de données sauf celles importées d'origine</li>
 <li>Veuillez toujours faire un test de migration avec une base de données test afin de bien vérifier le bon fonctionnement de la migration</li>
 <li>Les données importées se font au format brut, chaque table est lue et importée dans la base de données de ClicShopping.</li>

@@ -19,30 +19,70 @@
   use ClicShopping\Apps\Configuration\Administrators\Classes\ClicShoppingAdmin\AdministratorAdmin;
   use ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin\ImportDatabase;
 
-  class OscommercePhoenix
+  class osCommercePhoenix
   {
-    protected $PrefixTable;
+    protected ?string $PrefixTable;
     protected $db;
+    protected $importDatabase;
 
     public function __construct()
     {
       $this->db = Registry::get('Db');
       $this->PrefixTable = HTML::outputProtected($_POST['prefix_tables']);
+
+      Registry::set('ImportDatabase', new ImportDatabase());
+      $this->importDatabase = Registry::get('ImportDatabase');
+    }
+
+    /**
+     * Clean ClicShopping database
+     * customize as you wish : be careful on the exceptions
+     * @return array
+     */
+    public function deleteDataBase()
+    {
+      $array = [
+        'categories',
+        'categories_description',
+        'manufacturers',
+        'manufacturers_info',
+        'products',
+        'products_description',
+        'products_groups',
+        'products_images',
+        'products_notifications',
+        'products_to_categories',
+        'reviews',
+        'reviews_description',
+        'specials',
+        'products_attributes_download',
+        'products_options',
+        'products_options_values',
+        'products_options_values_to_products_options'
+      ];
+
+// customization
+/// Change here is needed
+      $customization_array = [
+//        'banners'
+      ];
+
+      $delete_array = array_merge($array, $customization_array);
+
+      $this->importDatabase->cleanTableClicShopping($delete_array);
     }
 
     public function execute()
     {
       global $mysqli;
 
-      Registry::set('ImportDatabase', new ImportDatabase());
-      $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
+      $this->deleteDataBase();
 
-      $CLICSHOPPING_ImportDatabase->cleanTableClicShopping();
-
+      echo 'Attempt to clean existing data<br />';
 //******************************************
-//Languages --−> risques de conflits avec la bd originelles
+//Languages --−> Fench language must be deleted before
 //******************************************
-      $clicshopping_languages = $CLICSHOPPING_ImportDatabase->readLanguage();
+      $clicshopping_languages = $this->importDatabase->readLanguage();
 
       $i = 0;
       $cl = [];
@@ -59,24 +99,26 @@
       echo '<hr>';
       echo '<div>table_languages</div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qlanguages->num_rows . '</div>';
+      echo '<div>' . CLICSHOPPING::getDef('text_check_local_language') . '</div>';
 
       $i = 0;
 
       while ($data = $Qlanguages->fetch_assoc()) {
         if ($cl[$i] != $data['code'] && $data['code'] != 'fr') {
           $sql_data_array = [
-            'name' => $data['name'],
-            'code' => $data['code'],
+            'name' => HTML::outputProtected($data['name']),
+            'code' => HTML::outputProtected($data['code']),
             'image' => $data['image'],
             'directory' => $data['directory'],
             'sort_order' => (int)$data['sort_order'],
-            'status' => 1
+            'status' => 1,
+//           'locale' => $data['code'] . '.' . strtoupper($data['code']) . '.UTF-8' ////en_US.UTF-8 minum
           ];
 
           $this->db->save('languages', $sql_data_array);
           echo '<p class="text-info"> new language imported : ' . $data['code'] . '</p>';
         } else {
-          echo '<p class="text-info"> No item to import, exist inside db : ' . $data['code'] . '</p>';
+          echo '<p class="text-info"> No item to import, exist inside db :' . $data['languages_id'] . " - " . $data['code'] . '</p>';
         }
 
         $i++;
@@ -84,11 +126,9 @@
 
       echo '<hr>';
 
-
 //**********************************
 //products table products description
 //**********************************
-// pb with test_oscommerce_phoenix
       $QproductDescriptions = $mysqli->query('select *
                                               from  ' . $this->PrefixTable . 'products_description
                                             ');
@@ -104,13 +144,13 @@
           $sql_data_array = [
             'products_id' => (int)$data['products_id'],
             'language_id' => (int)$languages['languages_id'],
-            'products_name' => $data['products_name'],
-            'products_description' => $data['products_description'],
+            'products_name' => HTML::outputProtected($data['products_name']),
+            'products_description' => HTML::outputProtected($data['products_description']),
             'products_url' => $data['products_url'],
-            'products_viewed ' => (int)$data['products_viewed'],
-            'products_head_title_tag' => $data['products_seo_title'],
-            'products_head_desc_tag' => $data['products_seo_description'],
-            'products_head_keywords_tag' => $data['products_seo_keywords'],
+            'products_viewed' => (int)HTML::sanitize($data['products_viewed']),
+            'products_head_title_tag' => HTML::outputProtected($data['products_seo_title']),
+            'products_head_desc_tag' => HTML::outputProtected($data['products_seo_description']),
+            'products_head_keywords_tag' => HTML::outputProtected($data['products_seo_keywords'])
           ];
 
           $this->db->save('products_description', $sql_data_array);
@@ -129,24 +169,59 @@
       echo '<hr>';
 
       while ($data = $QAddressBook->fetch_assoc()) {
-//address_book
-        $sql_data_array = ['address_book_id' => (int)HTML::sanitize($data['address_book_id']),
+        $sql_data_array = [
+          'address_book_id' => (int)HTML::sanitize($data['address_book_id']),
           'customers_id' => (int)HTML::sanitize($data['customers_id']),
           'entry_gender' => $data['entry_gender'],
-          'entry_company' => $data['entry_company'],
-          'entry_firstname' => $data['entry_firstname'],
-          'entry_lastname' => $data['entry_lastname'],
-          'entry_street_address' => $data['entry_street_address'],
-          'entry_suburb' => $data['entry_suburb'],
+          'entry_company' => HTML::outputProtected($data['entry_company']),
+          'entry_firstname' => HTML::outputProtected($data['entry_firstname']),
+          'entry_lastname' => HTML::outputProtected($data['entry_lastname']),
+          'entry_street_address' => HTML::outputProtected($data['entry_street_address']),
+          'entry_suburb' => HTML::outputProtected($data['entry_suburb']),
           'entry_postcode' => $data['entry_postcode'],
-          'entry_city' => $data['entry_city'],
-          'entry_state' => $data['entry_state'],
+          'entry_city' => HTML::outputProtected($data['entry_city']),
+          'entry_state' => HTML::outputProtected($data['entry_state']),
           'entry_country_id' => (int)HTML::sanitize($data['entry_country_id']),
-          'entry_zone_id' => HTML::sanitize($data['entry_zone_id']),
+          'entry_zone_id' => (int)HTML::sanitize($data['entry_zone_id'])
         ];
+
         $this->db->save('address_book', $sql_data_array);
       }
 
+//******************************************
+// table_banners
+//******************************************
+/*
+      $Qbanners = $mysqli->query('select *
+                                  from ' . $this->PrefixTable . 'banners
+                                  ');
+      echo '<hr>';
+      echo '<div>table_banners</div>';
+      echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qbanners->num_rows . '</div>';
+      echo '<div>The languages has the id 1 (english), adjust after</div>';
+      echo '<hr>';
+
+      while ($data = $Qbanners->fetch_assoc()) {
+        $sql_data_array = [
+          'banners_title' => HTML::outputProtected($data['banners_title']),
+          'banners_url' => $data['banners_url'],
+          'banners_image' => $data['banners_image'],
+          'banners_group' => $data['banners_group'],
+          'banners_target' => '_self',
+          'banners_html_text' => $data['banners_html_text'],
+          'expires_impressions' => (int)$data['expires_impressions'],
+          'expires_date' => $data['expires_date'],
+          'date_scheduled' => $data['date_scheduled'],
+          'date_added' => $data['date_added'],
+          'date_status_change' => $data['date_status_change'],
+          'status' => (int)$data['status'],
+          'languages_id' => 1,
+          'banners_title_admin' => $data['banners_title']
+        ];
+
+        $this->db->save('banners', $sql_data_array);
+      }
+*/
 //******************************************
 // table_categories
 //******************************************
@@ -187,14 +262,14 @@
 
 // categories_description
         foreach ($clicshopping_languages as $languages) {
-          $sql_data_array = [
-            'categories_id' => (int)$data['categories_id'],
-            'language_id' => (int)$languages['languages_id'],
-            'categories_name' => $data['categories_name'],
-            'categories_description ' => null,
-            'categories_head_title_tag' => $data['categories_seo_title'],
-            'categories_head_desc_tag' => $data['categories_seo_description']
-          ];
+        $sql_data_array = [
+          'categories_id' => (int)$data['categories_id'],
+          'language_id' => (int)$languages['languages_id'],
+          'categories_name' => HTML::outputProtected($data['categories_name']),
+          'categories_description ' => null,
+          'categories_head_title_tag' => HTML::outputProtected($data['categories_seo_title']),
+          'categories_head_desc_tag' => HTML::outputProtected($data['categories_seo_description'])
+        ];
 
           $this->db->save('categories_description', $sql_data_array);
         }
@@ -215,13 +290,13 @@
         $sql_data_array = [
           'customers_id' => (int)$data['customers_id'],
           'customers_gender' => $data['customers_gender'],
-          'customers_firstname' => $data['customers_firstname'],
-          'customers_lastname' => $data['customers_lastname'],
+          'customers_firstname' => HTML::outputProtected(['customers_firstname']),
+          'customers_lastname' => HTML::outputProtected($data['customers_lastname']),
           'customers_dob' => $data['customers_dob'],
           'customers_email_address' => $data['customers_email_address'],
           'customers_default_address_id' => (int)$data['customers_default_address_id'],
-          'customers_telephone' => $data['customers_telephone'],
-          'customers_fax' => $data['customers_fax'],
+          'customers_telephone' => HTML::outputProtected($data['customers_telephone']),
+          'customers_fax' => HTML::outputProtected($data['customers_fax']),
           'customers_password' => $data['customers_password'],
           'customers_newsletter' => $data['customers_newsletter'],
           'languages_id' => 1,
@@ -265,7 +340,7 @@
                                       ');
 
       echo '<hr>';
-      echo '<div>table_manufacturers et manufacturers_info</div>';
+      echo '<div>table_manufacturers</div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qmanufacturers->num_rows . '</div>';
       echo '<hr>';
 
@@ -274,11 +349,10 @@
 
         $sql_data_array = [
           'manufacturers_id' => (int)$data['manufacturers_id'],
-          'manufacturers_name' => $data['manufacturers_name'],
+          'manufacturers_name' => HTML::outputProtected($data['manufacturers_name']),
           'manufacturers_image' => $data['manufacturers_image'],
           'date_added' => $data['date_added'],
-          'last_modified' => $data['last_modified'],
-          'suppliers_id' => 0
+          'last_modified' => $data['last_modified']
         ];
 
         $this->db->save('manufacturers', $sql_data_array);
@@ -292,7 +366,7 @@
                                           ');
 
       echo '<hr>';
-      echo '<div>table_manufacturers et manufacturers_info</div>';
+      echo '<div>table_manufacturers_info</div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $QmanufacturersName->num_rows . '</div>';
       echo '<hr>';
 
@@ -305,8 +379,8 @@
             'url_clicked' => (int)$data['url_clicked'],
             'date_last_click' => $data['date_last_click'],
             'manufacturer_description ' => null,
-            'manufacturer_seo_title' => $data['manufacturers_seo_title'],
-            'manufacturer_seo_description' => $data['manufacturers_seo_description']
+            'manufacturer_seo_title' => HTML::outputProtected($data['manufacturers_seo_title']),
+            'manufacturer_seo_description' => HTML::outputProtected($data['manufacturers_seo_description'])
           ];
 
           $this->db->save('manufacturers_info', $sql_data_array);
@@ -328,7 +402,7 @@
       while ($data = $Qnewsletters->fetch_assoc()) {
         $sql_data_array = [
           'newsletters_id' => (int)HTML::sanitize($data['newsletters_id']),
-          'title' => $data['title'],
+          'title' => HTML::outputProtected($data['title']),
           'content' => $data['content'],
           'content_html' => $data['content_html'],
           'module' => $data['module'],
@@ -357,33 +431,33 @@
         $sql_data_array = [
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'customers_id' => (int)HTML::sanitize($data['customers_id']),
-          'customers_name' => $data['customers_name'],
-          'customers_company' => $data['customers_company'],
-          'customers_street_address' => $data['customers_street_address'],
-          'customers_suburb' => $data['customers_suburb'],
-          'customers_city' => $data['customers_city'],
+          'customers_name' => HTML::outputProtected($data['customers_name']),
+          'customers_company' => HTML::outputProtected($data['customers_company']),
+          'customers_street_address' => HTML::outputProtected($data['customers_street_address']),
+          'customers_suburb' => HTML::outputProtected($data['customers_suburb']),
+          'customers_city' => HTML::outputProtected(['customers_city']),
           'customers_postcode' => $data['customers_postcode'],
-          'customers_state' => $data['customers_state'],
+          'customers_state' => HTML::outputProtected($data['customers_state']),
           'customers_country' => $data['customers_country'],
-          'customers_telephone' => $data['customers_telephone'],
+          'customers_telephone' => HTML::outputProtected($data['customers_telephone']),
           'customers_email_address' => $data['customers_email_address'],
           'customers_address_format_id' => (int)HTML::sanitize($data['customers_address_format_id']),
-          'delivery_name' => $data['delivery_name'],
-          'delivery_company' => $data['delivery_company'],
-          'delivery_street_address' => $data['delivery_street_address'],
-          'delivery_suburb' => $data['delivery_suburb'],
-          'delivery_city' => $data['delivery_city'],
+          'delivery_name' => HTML::outputProtected($data['delivery_name']),
+          'delivery_company' => HTML::outputProtected($data['delivery_company']),
+          'delivery_street_address' => HTML::outputProtected($data['delivery_street_address']),
+          'delivery_suburb' => HTML::outputProtected($data['delivery_suburb']),
+          'delivery_city' => HTML::outputProtected($data['delivery_city']),
           'delivery_postcode' => $data['delivery_postcode'],
-          'delivery_state' => $data['delivery_state'],
+          'delivery_state' => HTML::outputProtected($data['delivery_state']),
           'delivery_country' => $data['delivery_country'],
           'delivery_address_format_id' => (int)HTML::sanitize($data['delivery_address_format_id']),
-          'billing_name' => $data['billing_name'],
-          'billing_company' => $data['billing_company'],
-          'billing_street_address' => $data['billing_street_address'],
-          'billing_suburb' => $data['billing_suburb'],
-          'billing_city' => $data['billing_city'],
+          'billing_name' => HTML::outputProtected($data['billing_name']),
+          'billing_company' => HTML::outputProtected($data['billing_company']),
+          'billing_street_address' => HTML::outputProtected($data['billing_street_address']),
+          'billing_suburb' => HTML::outputProtected($data['billing_suburb']),
+          'billing_city' => HTML::outputProtected($data['billing_city']),
           'billing_postcode' => $data['billing_postcode'],
-          'billing_state' => $data['billing_state'],
+          'billing_state' => HTML::outputProtected($data['billing_state']),
           'billing_country' => $data['billing_country'],
           'billing_address_format_id' => (int)HTML::sanitize($data['billing_address_format_id']),
           'payment_method' => $data['payment_method'],
@@ -398,7 +472,7 @@
           'orders_date_finished' => $data['orders_date_finished'],
           'currency' => $data['currency'],
           'currency_value' => $data['currency_value'],
-          'customers_group_id' => 0,
+          'customers_group_id' => 0
         ];
 
         $this->db->save('orders', $sql_data_array);
@@ -422,7 +496,7 @@
           'orders_id' => (int)HTML::sanitize($data['orders_id']),
           'products_id' => (int)HTML::sanitize($data['products_id']),
           'products_model' => $data['products_model'],
-          'products_name' => $data['products_name'],
+          'products_name' => HTML::outputProtected($data['products_name']),
           'products_price' => (float)$data['products_price'],
           'final_price' => (float)$data['final_price'],
           'products_tax' => (float)$data['products_tax'],
@@ -433,13 +507,13 @@
       }
 
 //******************************************
-// orders_status
+// orders_status - do not delete - relation with some other element - $data['orders_status_id'] > 4
 //******************************************
       $QordersStatus = $mysqli->query('select *
                                        from ' . $this->PrefixTable . 'orders_status
                                       ');
       echo '<hr>';
-      echo '<div>table_orders_status <br /> Status update > 4</div>';
+      echo '<div>table_orders_status <br /></div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $QordersStatus->num_rows . '</div>';
       echo '<hr>';
 
@@ -527,7 +601,7 @@
           'products_options_values' => $data['products_options_values'],
           'options_values_price' => (float)$data['options_values_price'],
           'price_prefix' => $data['price_prefix'],
-          'products_attributes_reference ' => '',
+          'products_attributes_reference ' => ''
         ];
 
         $this->db->save('orders_products_attributes', $sql_data_array);
@@ -550,7 +624,7 @@
           'orders_id' => (int)$data['orders_id'],
           'orders_products_id' => (int)$data['orders_products_id'],
           'orders_products_filename' => $data['orders_products_filename'],
-          'download_maxdays ' => (int)$data['download_maxdays '],
+          'download_maxdays' => (int)$data['download_maxdays'],
           'download_count' => (int)$data['download_count']
         ];
 
@@ -668,7 +742,7 @@
           $sql_data_array = [
             'products_options_id' => (int)$data['products_options_id'],
             'language_id' => (int)$languages['languages_id'],
-            'products_options_name' => $data['products_options_name'],
+            'products_options_name' => HTML::outputProtected($data['products_options_name']),
             'products_options_sort_order' => 0,
             'products_options_type' => 'select'
           ];
@@ -693,7 +767,7 @@
           $sql_data_array = [
             'products_options_values_id' => (int)$data['products_options_values_id'],
             'language_id' => (int)$languages['languages_id'],
-            'products_options_values_name' => $data['products_options_values_name']
+            'products_options_values_name' => HTML::outputProtected($data['products_options_values_name'])
           ];
 
           $this->db->save('products_options_values', $sql_data_array);
@@ -759,11 +833,11 @@
           'reviews_id' => (int)HTML::sanitize($data['reviews_id']),
           'products_id' => (int)HTML::sanitize($data['products_id']),
           'customers_id' => (int)HTML::sanitize($data['customers_id']),
-          'customers_name' => $data['customers_name'],
+          'customers_name' => HTML::outputProtected($data['customers_name']),
           'reviews_rating' => (int)HTML::sanitize($data['reviews_rating']),
           'date_added' => $data['date_added'],
           'last_modified' => $data['last_modified'],
-          'status' => (int)HTML::sanitize($data['reviews_status']),
+          'status' => 1,
           'reviews_read' => (int)HTML::sanitize($data['reviews_read']),
           'customers_group_id' => 0
         ];
@@ -780,6 +854,7 @@
             'languages_id' => (int)HTML::sanitize($cl[$i]),
             'reviews_text' => $data['reviews_text'],
           ];
+
           $this->db->save('reviews_description', $sql_data_array);
           $i++;
         }
@@ -836,15 +911,15 @@
           'products_price' => (float)$data['products_price'],
           'products_date_available' => $data['products_date_available'] ?? null,
           'products_weight' => (float)$data['products_weight'],
-          'products_status' => (int)$data['products_status'],
+          'products_status' => (int)HTML::sanitize($data['products_status']),
           'products_percentage' => 1,
           'products_view' => 1,
           'orders_view' => 1,
           'products_cost' => 0,
-          'products_tax_class_id' => (int)$data['products_tax_class_id'],
-          'manufacturers_id' => (int)$data['manufacturers_id'],
+          'products_tax_class_id' => (int)HTML::sanitize($data['products_tax_class_id']),
+          'manufacturers_id' => (int)HTML::sanitize($data['manufacturers_id']),
           'admin_user_name' => AdministratorAdmin::getUserAdmin(),
-          'products_sort_order' => (int)$data['products_ordered'],
+          'products_sort_order' => (int)HTML::sanitize($data['products_ordered']),
           'products_date_added' => 'now()',
           'products_last_modified' => 'now()',
           'products_date_available' => 'now()',
@@ -999,7 +1074,8 @@
 // Prix TTC B2B ----------
             if (($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] != $Qattributes->value('customers_group_price')) && ($Qattributes->valueInt('customers_group_id') == $QcustomersGroup->valueInt('customers_group_id'))) {
 
-              $this->db->save('products_groups', ['customers_group_price' => $sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
+              $this->db->save('products_groups', [
+                'customers_group_price' => $sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')],
                 'products_price' => (float)HTML::sanitize($_POST['products_price']),
               ],
                 ['products_id' => (int)HTML::sanitize($data['products_id']),
@@ -1010,8 +1086,6 @@
             } elseif (($sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')] == $Qattributes->valueInt('customers_group_price'))) {
               $attributes = $Qattributes->fetch();
             }
-
-
 // Prix + Afficher Prix Public + Afficher Produit + Autoriser Commande
           }
 /*

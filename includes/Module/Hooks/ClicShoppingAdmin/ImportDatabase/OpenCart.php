@@ -21,30 +21,44 @@
 
   class OpenCart
   {
-    protected $PrefixTable;
+    protected ?string $PrefixTable;
     protected $db;
+    protected $importDatabase;
 
     public function __construct()
     {
       $this->db = Registry::get('Db');
       $this->PrefixTable = HTML::outputProtected($_POST['prefix_tables']);
+
+      Registry::set('ImportDatabase', new ImportDatabase());
+      $this->importDatabase = Registry::get('ImportDatabase');
+    }
+
+    /**
+     * Clean ClicShopping database
+     * customize as you wish : be careful on the exceptions
+     * @return array
+     */
+    public function deleteDataBase() :array
+    {
+      $array = [
+      ];
+
+      $this->importDatabase->cleanTableClicShopping($array);
     }
 
     public function execute()
     {
       global $mysqli;
 
-      Registry::set('ImportDatabase', new ImportDatabase());
-      $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
+      $this->deleteDataBase();
 
       echo 'Attempt to clean existing data<br />';
-      $CLICSHOPPING_ImportDatabase->cleanTableClicShopping();
-
 //******************************************
 //Languages --−> risques de conflits avec la bd originelles
       //en-gb -oc_language
 //******************************************
-      $clicshopping_languages = $CLICSHOPPING_ImportDatabase->readLanguage();
+      $clicshopping_languages = $this->importDatabase->readLanguage();
 
       $i = 0;
       $cl = [];
@@ -61,12 +75,11 @@
       echo '<hr>';
       echo '<div>table_languages</div>';
       echo '<div>' . CLICSHOPPING::getDef('text_number_of_item') . ' : ' . $Qlanguages->num_rows . '</div>';
+      echo '<div>' . CLICSHOPPING::getDef('text_check_local_language') . '</div>';
 
       $i = 0;
 
       while ($data = $Qlanguages->fetch_assoc()) {
-
-
         $code = substr($data['code'], -5, 2);
 
         if ($cl[$i] != $code && $code != 'fr') {
@@ -77,7 +90,7 @@
             'directory' => $data['directory'],
             'sort_order' => (int)HTML::sanitize($data['sort_order']),
             'status' => 1
-                      ];
+          ];
 
           $this->db->save('languages', $sql_data_array);
           echo '<p class="text-info"> new language imported : ' . $data['code'] . '</p>';

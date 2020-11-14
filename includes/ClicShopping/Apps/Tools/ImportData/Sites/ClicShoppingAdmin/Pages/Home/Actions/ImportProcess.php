@@ -20,7 +20,6 @@
       $CLICSHOPPING_ImportData = Registry::get('ImportData');
 
       $this->page->setFile('import_process.php');
-//      $this->page->data['action'] = 'Process';
 
       $CLICSHOPPING_ImportData->loadDefinitions('ClicShoppingAdmin/main');
     }

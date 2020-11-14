@@ -20,7 +20,7 @@
   $import_array = array(
     array('id' => '0', 'text' => $CLICSHOPPING_ImportData->getDef('text_select')),
     array('id' => 'database', 'text' => $CLICSHOPPING_ImportData->getDef('database')),
-    array('id' => 'file', 'text' => $CLICSHOPPING_ImportData->getDef('text_file'))
+//    array('id' => 'file', 'text' => $CLICSHOPPING_ImportData->getDef('text_file'))
   );
 ?>
 

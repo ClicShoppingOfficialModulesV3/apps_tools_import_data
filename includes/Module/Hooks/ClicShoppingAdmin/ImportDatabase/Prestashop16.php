@@ -17,35 +17,69 @@
   use ClicShopping\OM\Cache;
 
   use ClicShopping\Apps\Configuration\Administrators\Classes\ClicShoppingAdmin\AdministratorAdmin;
+  use ClicShopping\Apps\Tools\ImportData\Classes\ClicShoppingAdmin\ImportDatabase;
 
   class Prestashop16
   {
-    protected $PrefixTable;
+    protected ?string $PrefixTable;
+    protected $db;
+    protected $importDatabase;
 
     public function __construct()
     {
-      if (CLICSHOPPING::getSite() != 'ClicShoppingAdmin') {
-        CLICSHOPPING::redirect();
-      }
-
+      $this->db = Registry::get('Db');
       $this->PrefixTable = HTML::outputProtected($_POST['prefix_tables']);
+
+      Registry::set('ImportDatabase', new ImportDatabase());
+      $this->importDatabase = Registry::get('ImportDatabase');
+    }
+
+    /**
+     * Clean ClicShopping database
+     * customize as you wish : be careful on the exceptions
+     * @return array
+     */
+    public function deleteDataBase() :array
+    {
+      $array = [
+        'categories',
+        'categories_description',
+        'manufacturers',
+        'manufacturers_info',
+        'products',
+        'products_description',
+        'products_groups',
+        'products_images',
+        'products_notifications',
+        'products_to_categories',
+        'reviews',
+        'reviews_description',
+        'specials',
+        'products_attributes_download',
+        'products_options',
+        'products_options_values',
+        'products_options_values_to_products_options'
+      ];
+
+// customization
+/// Change here is needed
+      $customization_array = [
+      ];
+
+      $delete_array = array_merge($array, $customization_array);
+
+      $this->importDatabase->cleanTableClicShopping($delete_array);
     }
 
     public function execute()
     {
       global $mysqli;
 
-      $CLICSHOPPING_Db = Registry::get('Db');
-      $CLICSHOPPING_MessageStack = Registry::get('MessageStack');
-
-      Registry::set('ImportDatabase', new ImportDatabase());
-      $CLICSHOPPING_ImportDatabase = Registry::get('ImportDatabase');
+      $this->deleteDataBase();
 
       echo 'Attempt to clean existing data<br />';
-      $CLICSHOPPING_ImportDatabase->cleanTableClicShopping();
-
 //******************************************
-//Languages --−> risques de conflits avec la bd originelles
+//Languages --−> Fench language must be deleted before
 //******************************************
       $clicshopping_languages = $CLICSHOPPING_ImportDatabase->readLanguage();
 
@@ -54,7 +88,8 @@
 
       foreach ($clicshopping_languages as $languages) {
         $cl[$i] = $languages['code'];
-        $i = $i + 1;
+
+        $i++;
       }
 
       $Qlanguages = $mysqli->query('select *
@@ -644,7 +679,6 @@
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
 
-      $CLICSHOPPING_MessageStack->add(CLICSHOPPING::getDef('text_success_import'), 'success');
       echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
       echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
