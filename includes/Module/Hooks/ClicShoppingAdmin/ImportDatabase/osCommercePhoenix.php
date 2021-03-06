@@ -981,7 +981,7 @@
               $newprice;
             } // end $pricek
 
-          } else if (!is_null($_POST)) {
+          } else if (!\is_null($_POST)) {
 // Prix TTC B2B
             $newprice = $sql_data_array_products_group_price['price' . $QcustomersGroup->valueInt('customers_group_id')];
           } else {

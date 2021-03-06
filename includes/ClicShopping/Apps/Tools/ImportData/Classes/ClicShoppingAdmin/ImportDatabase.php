@@ -38,7 +38,7 @@
 
           foreach ($contents as $item) {
             $fileInfo = pathinfo($item);
-            if (array_key_exists('extension', $fileInfo) && in_array($fileInfo['extension'], $fileTypes)) {
+            if (array_key_exists('extension', $fileInfo) && \in_array($fileInfo['extension'], $fileTypes)) {
               $found[] = $item;
             }
           }
@@ -74,7 +74,7 @@
      */
     public function cleanTableClicShopping(array $array_db)
     {
-      if (is_array($array_db)) {
+      if (\is_array($array_db)) {
         foreach ($array_db as $value) {
           $this->app->db->delete($value);
         }
