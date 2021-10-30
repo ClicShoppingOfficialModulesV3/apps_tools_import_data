@@ -22,7 +22,7 @@
   class osCommercePhoenix
   {
     protected ?string $PrefixTable;
-    protected $db;
+    protected mixed $db;
     protected $importDatabase;
 
     public function __construct()

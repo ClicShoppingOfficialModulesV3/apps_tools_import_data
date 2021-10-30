@@ -15,7 +15,7 @@
   {
 
     public $default = '300';
-    public $app_configured = true;
+    public bool $app_configured = true;
     public $sort_order = 20;
 
     protected function init()
