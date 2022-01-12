@@ -202,7 +202,6 @@
           'customers_email_address' => $data['email'],
           'customers_default_address_id' => (int)$data['address_id'],
           'customers_telephone' => $data['telephone'],
-          'customers_fax' => $data['fax'],
           'customers_password' => $data['password'],
           'customers_newsletter' => $data['newsletter'],
           'languages_id' => $data['language_id'],
@@ -591,11 +590,9 @@
                                                                  customers_group_name,
                                                                  customers_group_discount
                                                   from :table_customers_groups
-                                                  where customers_group_id != :customers_group_id
                                                   order by customers_group_id
                                                 ');
 
-        $QcustomersGroup->bindInt(':customers_group_id', 0);
         $QcustomersGroup->execute();
 
 
@@ -652,11 +649,9 @@
                                                                   customers_group_name,
                                                                   customers_group_discount
                                                   from :table_customers_groups
-                                                  where customers_group_id != :customers_group_id
                                                   order by customers_group_id
                                                 ');
 
-        $QcustomersGroup->bindInt(':customers_group_id', 0);
         $QcustomersGroup->execute();
 
 // Gets all of the customers groups
@@ -777,7 +772,7 @@
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
 
-      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
-      echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
+      echo '<div class="alert alert-warning text-center">Please update your customers group (Customer menu)</div>';
+      echo '<div class="text-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

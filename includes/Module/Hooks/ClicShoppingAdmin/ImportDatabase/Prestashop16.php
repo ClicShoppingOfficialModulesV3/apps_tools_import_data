@@ -235,7 +235,6 @@
           'customers_email_address' => $data['email'],
           'customers_default_address_id' => 1,
           'customers_telephone' => null,
-          'customers_fax' => null,
           'customers_password' => $data['passwd'],
           'customers_newsletter' => (int)HTML::sanitize($data['newsletter']),
           'languages_id' => (int)HTML::sanitize($data['id_lang']),
@@ -273,7 +272,8 @@
       while ($data = $Qmanufacturers->fetch_assoc()) {
         echo $data['id_manufacturer'] . ' - ' . $data['name'] . '<br />';
 
-        $sql_data_array = ['manufacturers_id' => (int)HTML::sanitize($data['id_manufacturer']),
+        $sql_data_array = [
+          'manufacturers_id' => (int)HTML::sanitize($data['id_manufacturer']),
           'manufacturers_name' => $data['name'],
           'manufacturers_image' => null,
           'date_added' => $data['date_add'],
@@ -287,7 +287,8 @@
         foreach ($clicshopping_languages as $languages) {
           $cl[$i] = $languages['id_lang'];
 
-          $sql_data_array = ['manufacturers_id' => (int)HTML::sanitize($data['id_manufacturer']),
+          $sql_data_array = [
+            'manufacturers_id' => (int)HTML::sanitize($data['id_manufacturer']),
             'languages_id' => $cl[$i],
             'manufacturers_url' => null,
             'url_clicked' => 0,
@@ -320,7 +321,8 @@
       while ($data = $Qmanufacturers->fetch_assoc()) {
         echo $data['id_supplier'] . ' - ' . $data['name'] . '<br />';
 
-        $sql_data_array = ['suppliers_id' => (int)HTML::sanitize($data['id_supplier']),
+        $sql_data_array = [
+          'suppliers_id' => (int)HTML::sanitize($data['id_supplier']),
           'suppliers_name' => $data['name'],
           'suppliers_image' => null,
           'date_added' => $data['date_add'],
@@ -414,7 +416,8 @@
 
           echo (int)HTML::sanitize($data['id_product']) . ' - ' . $data['name'] . '<br />';
 
-          $sql_data_array_description = ['products_id' => (int)HTML::sanitize($data['id_product']),
+          $sql_data_array_description = [
+            'products_id' => (int)HTML::sanitize($data['id_product']),
             'language_id' => (int)HTML::sanitize($pl[$i]),
             'products_name' => $data['name'],
             'products_description' => $data['description'],
@@ -434,7 +437,8 @@
 
 
 // products
-        $sql_data_array_products = ['products_id' => (int)HTML::sanitize($data['id_product']),
+        $sql_data_array_products = [
+          'products_id' => (int)HTML::sanitize($data['id_product']),
           'products_quantity' => (int)HTML::sanitize($data['quantity']),
           'products_ean' => HTML::sanitize($data['ean13']),
           'products_model' => $data['reference'],
@@ -486,11 +490,9 @@
                                                                  customers_group_name,
                                                                  customers_group_discount
                                                   from :table_customers_groups
-                                                  where customers_group_id != :customers_group_id
                                                   order by customers_group_id
                                                 ');
 
-        $QcustomersGroup->bindInt(':customers_group_id', 0);
         $QcustomersGroup->execute();
 
 
@@ -551,11 +553,9 @@
                                                                 customers_group_name,
                                                                 customers_group_discount
                                                 from :table_customers_groups
-                                                where customers_group_id != :customers_group_id
                                                 order by customers_group_id
                                               ');
 
-        $QcustomersGroup->bindInt(':customers_group_id', 0);
         $QcustomersGroup->execute();
 
 // Gets all of the customers groups
@@ -679,7 +679,7 @@
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
 
-      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
-      echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
+      echo '<div class="alert alert-warning text-center">Please update your customers group (Customer menu)</div>';
+      echo '<div class="text-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }

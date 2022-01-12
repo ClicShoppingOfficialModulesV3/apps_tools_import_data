@@ -61,8 +61,8 @@
         'products_options_values_to_products_options'
       ];
 
-// customization
-/// Change here is needed
+// customization example
+/// Change here if needed
       $customization_array = [
         'banners'
       ];
@@ -297,7 +297,6 @@
           'customers_email_address' => $data['customers_email_address'],
           'customers_default_address_id' => (int)$data['customers_default_address_id'],
           'customers_telephone' => HTML::outputProtected($data['customers_telephone']),
-          'customers_fax' => HTML::outputProtected($data['customers_fax']),
           'customers_password' => $data['customers_password'],
           'customers_newsletter' => $data['customers_newsletter'],
           'languages_id' => 1,
@@ -930,11 +929,9 @@
                                                                  customers_group_name,
                                                                  customers_group_discount
                                                   from :table_customers_groups
-                                                  where customers_group_id != :customers_group_id
                                                   order by customers_group_id
                                                 ');
 
-        $QcustomersGroup->bindInt(':customers_group_id', 0);
         $QcustomersGroup->execute();
 
 
@@ -991,11 +988,9 @@
                                                                   customers_group_name,
                                                                   customers_group_discount
                                                   from :table_customers_groups
-                                                  where customers_group_id != :customers_group_id
                                                   order by customers_group_id
                                                 ');
 
-        $QcustomersGroup->bindInt(':customers_group_id', 0);
         $QcustomersGroup->execute();
 
 // Gets all of the customers groups
@@ -1114,7 +1109,7 @@
       Cache::clear('products_cross_sell');
       Cache::clear('upcoming');
 
-      echo '<div class="alert alert-warning text-md-center">Please update your customers group (Customer menu)</div>';
-      echo '<div class="text-md-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
+      echo '<div class="alert alert-warning text-center">Please update your customers group (Customer menu)</div>';
+      echo '<div class="text-center">' . HTML::button(CLICSHOPPING::getDef('button_continue'), null, CLICSHOPPING::link(), 'success') . '</div>';
     }
   }
