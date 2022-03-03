@@ -41,7 +41,7 @@
 
     public function install()
     {
-      $cut_length = strlen('CLICSHOPPING_APP_IMPORT_DATA_' . $this->code . '_');
+      $cut_length = \strlen('CLICSHOPPING_APP_IMPORT_DATA_' . $this->code . '_');
 
       foreach ($this->getParameters() as $key) {
         $p = strtolower(substr($key, $cut_length));
@@ -50,7 +50,7 @@
 
         $cfg = new $class($this->code);
 
-        $this->app->saveCfgParam($key, $cfg->default, isset($cfg->title) ? $cfg->title : null, isset($cfg->description) ? $cfg->description : null, isset($cfg->set_func) ? $cfg->set_func : null);
+        $this->app->saveCfgParam($key, $cfg->default, $cfg->title ?? null, $cfg->description ?? null, $cfg->set_func ?? null);
       }
     }
 
@@ -95,7 +95,7 @@
 
       $cut = 'CLICSHOPPING_APP_IMPORT_DATA_' . $this->code . '_';
 
-      $cut_length = strlen($cut);
+      $cut_length = \strlen($cut);
 
       foreach ($this->getParameters() as $key) {
         $p = strtolower(substr($key, $cut_length));
@@ -106,7 +106,7 @@
 
 
         if (!\defined($key)) {
-          $this->app->saveCfgParam($key, $cfg->default, isset($cfg->title) ? $cfg->title : null, isset($cfg->description) ? $cfg->description : null, isset($cfg->set_func) ? $cfg->set_func : null);
+          $this->app->saveCfgParam($key, $cfg->default, $cfg->title ?? null, $cfg->description ?? null, $cfg->set_func ?? null);
         }
 
         if ($cfg->app_configured !== false) {
