@@ -56,7 +56,7 @@
       <div class="alert alert-warning" role="alert">
         <?php
           echo '<div>' . $CLICSHOPPING_ImportData->getDef('text_error_connexion') . '</div>';
-          echo '<div class="text-md-right">' . HTML::button($CLICSHOPPING_ImportData->getDef('button_back'), null, $CLICSHOPPING_ImportData->link('ImportData&ImportConfigure'), 'warning') . '</div>';
+          echo '<div class="text-end">' . HTML::button($CLICSHOPPING_ImportData->getDef('button_back'), null, $CLICSHOPPING_ImportData->link('ImportData&ImportConfigure'), 'warning') . '</div>';
           exit;
         ?>
       </div>
@@ -71,7 +71,7 @@
       </div>
       <div class="adminformTitle">
         <?php
-          echo '<div class="text-md-center text-danger">' . $CLICSHOPPING_ImportData->getDef('process_is_running_please_wait') . '</div>';
+          echo '<div class="text-center text-danger">' . $CLICSHOPPING_ImportData->getDef('process_is_running_please_wait') . '</div>';
           echo '<div class="separator"></div>';
           echo '<div class="page-header"><h1>' . HTML::sanitize($_POST['select_ecommerce_solution']) . '</h1></div>';
           echo '<hr>';

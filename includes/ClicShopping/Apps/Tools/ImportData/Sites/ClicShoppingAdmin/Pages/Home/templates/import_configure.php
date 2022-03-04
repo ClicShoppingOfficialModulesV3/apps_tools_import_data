@@ -29,7 +29,7 @@
             class="col-md-1"><?php echo HTML::image($CLICSHOPPING_Template->getImageDirectory() . 'categories/migration.png', $CLICSHOPPING_ImportData->getDef('heading_title'), '40', '40'); ?></span>
           <span
             class="col-md-4 pageHeading"><?php echo '&nbsp;' . $CLICSHOPPING_ImportData->getDef('heading_title'); ?></span>
-          <span class="col-md-7 text-md-right">
+          <span class="col-md-7 text-end">
 <?php
   echo HTML::button($CLICSHOPPING_ImportData->getDef('button_cancel'), null, $CLICSHOPPING_ImportData->link('ImportData'), 'danger') . ' ';
   echo HTML::form('step_2', $CLICSHOPPING_ImportData->link('ImportProcess'));
@@ -66,7 +66,7 @@
               <label for="<?php echo $CLICSHOPPING_ImportData->getDef('database'); ?>"
                      class="col-5 col-form-label"><?php echo $CLICSHOPPING_ImportData->getDef('database'); ?></label>
               <div class="col-md-5">
-                <?php echo HTML::inputField('database', 'oscommerce', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('database') . '"'); ?>
+                <?php echo HTML::inputField('database', 'oscMax', 'required aria-required="true" placeholder="' . $CLICSHOPPING_ImportData->getDef('database') . '"'); ?>
               </div>
             </div>
           </div>

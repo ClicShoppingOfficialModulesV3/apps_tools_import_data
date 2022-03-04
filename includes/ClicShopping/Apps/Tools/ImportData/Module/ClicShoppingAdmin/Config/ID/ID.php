@@ -20,7 +20,7 @@
     protected $pm_code = 'import_data';
 
     public bool $is_uninstallable = true;
-    public $sort_order = 400;
+    public ?int $sort_order = 400;
 
     protected function init()
     {
